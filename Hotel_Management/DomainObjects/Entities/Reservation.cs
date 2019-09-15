@@ -17,6 +17,8 @@ namespace DomainObjects.Entities
         public int ReservationId { get; set; }
 
         [Required]
+        public StatusEnum StatusId { get; set; }
+
         public Status Status { get; set; }
         
         [ForeignKey("User")]

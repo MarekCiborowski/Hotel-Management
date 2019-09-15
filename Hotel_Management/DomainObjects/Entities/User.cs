@@ -46,7 +46,9 @@ namespace DomainObjects.Entities
         public bool IsConfirmed { get; set; }
 
         [Required]
-        public Roles Role { get; set; }
+        public RolesEnum RoleId { get; set; }
+
+        public virtual Role Role { get; set; }
 
         [ForeignKey("Company")]
         public int CompanyId { get; set; }

@@ -1,6 +1,7 @@
 ﻿using DomainObjects.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -31,9 +32,21 @@ namespace DataAccessLayer
 
         public virtual DbSet<User> Users { get; set; }
 
+        public virtual DbSet<Role> Roles { get; set; }
+
+        public virtual DbSet<Status> Statuses { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Status>()
+                .Property(s => s.StatusId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            modelBuilder.Entity<Role>()
+                .Property(s => s.RoleId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
     }
 }

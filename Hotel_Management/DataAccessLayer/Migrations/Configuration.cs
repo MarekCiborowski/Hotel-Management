@@ -1,9 +1,11 @@
 namespace DataAccessLayer.Migrations
 {
+    using DomainObjects.Entities;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using static DomainObjects.Enums;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DataAccessLayer.DatabaseContext>
     {
@@ -18,6 +20,20 @@ namespace DataAccessLayer.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+
+            context.Statuses.AddOrUpdate(
+            x => x.StatusId,
+            Enum.GetValues(typeof(StatusEnum))
+                .OfType<StatusEnum>()
+                .Select(x => new Status() { StatusId = x, Name = x.ToString() })
+                .ToArray());
+
+            context.Roles.AddOrUpdate(
+            x => x.RoleId,
+            Enum.GetValues(typeof(RolesEnum))
+                .OfType<RolesEnum>()
+                .Select(x => new Role() { RoleId = x, Name = x.ToString() })
+                .ToArray());
         }
     }
 }

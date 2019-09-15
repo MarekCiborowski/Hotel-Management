@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public class Class1
+    public class BaseRepository
     {
+        public A
     }
 }
