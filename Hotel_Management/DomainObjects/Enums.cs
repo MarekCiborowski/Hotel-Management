@@ -12,15 +12,14 @@ namespace DomainObjects
         {
             Admin = 0,
             RegularUser = 1,
-            CompanyUser = 2
         }
 
-        public enum StatusEnum
+        public enum ReservationStatusEnum
         {
             Canceled = 0,
             Confirmed = 1,
             Closed = 2,
-            AwaitingPayment = 3
+            AwaitingConfirmation = 3
         }
     }
 }

@@ -17,9 +17,11 @@ namespace DomainObjects.Entities
         public int Identity { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string FirstName { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string LastName { get; set; }
 
         [Required]
@@ -31,34 +33,29 @@ namespace DomainObjects.Entities
         public string Login { get; set; }
 
         [Required]
+        [StringLength(50)]
         public string Password { get; set; }
 
         [Required]
+        [StringLength(100)]
         public string Address { get; set; }
 
         [Required]
+        [StringLength(100)]
         public string City { get; set; }
 
         [Required]
         public string Zipcode { get; set; }
 
-        [Required]
-        public bool IsConfirmed { get; set; }
+        public bool IsConfirmed { get; set; } = false;
 
         [Required]
         public RolesEnum RoleId { get; set; }
 
         public virtual Role Role { get; set; }
 
-        [ForeignKey("Company")]
-        public int CompanyId { get; set; }
-
-        public virtual Company Company { get; set; }
-
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<Reservation> Reservations { get; set; }
-
-        public virtual ICollection<News> News { get; set; }
     }
 }

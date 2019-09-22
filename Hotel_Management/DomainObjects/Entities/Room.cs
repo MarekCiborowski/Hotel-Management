@@ -18,13 +18,10 @@ namespace DomainObjects.Entities
         [Required]
         public decimal Cost { get; set; }
 
-        [ForeignKey("Reservation")]
-        public int ReservationId { get; set; }
-
         [Required]
-        public virtual Reservation Reservation { get; set; }
+        public int MaxNumberOfGuests { get; set; }
 
-        public virtual ICollection<RoomOffer> RoomOffers { get; set; }
+        public virtual ICollection<RoomReservation> RoomReservations { get; set; }
 
         public virtual ICollection<RoomAmenity> RoomAmenities { get; set; }
     }

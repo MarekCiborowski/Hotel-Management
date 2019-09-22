@@ -8,31 +8,27 @@ using System.Threading.Tasks;
 
 namespace DomainObjects.Entities
 {
-    [Table("Review")]
-    public class Review
+    [Table("Message")]
+    public class Message
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ReviewId { get; set; }
+        public int MessageID { get; set; }
 
         [Required]
         [StringLength(500)]
-        public string Comment { get; set; }
+        public string MessageContent { get; set; }
+
+        [ForeignKey("Conversation")]
+        public int ConversationID { get; set; }
 
         [Required]
-        public bool Score { get; set; }
+        public virtual Conversation Conversation { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }
 
         [Required]
         public virtual User User { get; set; }
-        
-        [ForeignKey("Reservation")]
-        public int ReservationId { get; set; }
-
-        [Required]
-        public virtual Reservation Reservation { get; set; }
-
     }
 }

@@ -8,23 +8,20 @@ using System.Threading.Tasks;
 
 namespace DomainObjects.Entities
 {
-    [Table("RoomOffer")]
-    public class RoomOffer
+    [Table("RoomReservation")]
+    public class RoomReservation
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int RoomOfferId { get; set; }
+        public int RoomReservationId { get; set; }
 
         [ForeignKey("Room")]
         public int RoomId { get; set; }
 
-        [Required]
         public virtual Room Room { get; set; }
 
-        [ForeignKey("Offer")]
-        public int OfferId { get; set; }
+        [ForeignKey("Reservation")]
+        public int ReservationId { get; set; }
 
-        [Required]
-        public virtual Offer Offer { get; set; }
+        public virtual Reservation Reservation { get; set; }
     }
 }

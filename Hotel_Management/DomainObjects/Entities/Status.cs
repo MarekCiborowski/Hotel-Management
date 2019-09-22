@@ -7,9 +7,9 @@ using static DomainObjects.Enums;
 
 namespace DomainObjects.Entities
 {
-    public class Status
+    public class ReservationStatus
     {
-        public StatusEnum StatusId { get; set; }
+        public ReservationStatusEnum ReservationStatusId { get; set; }
 
         public string Name { get; set; }
     }

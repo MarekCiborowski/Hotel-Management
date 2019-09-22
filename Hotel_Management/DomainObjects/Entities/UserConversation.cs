@@ -8,20 +8,22 @@ using System.Threading.Tasks;
 
 namespace DomainObjects.Entities
 {
-    [Table("News")]
-    public class News
+    [Table("UserConversation")]
+    public class UserConversation
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int NewsId { get; set; }
-
-        [Required]
-        public string NewsContent { get; set; }
+        public int UserConversationID { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
 
-        [Required]
         public virtual User User { get; set; }
+
+        [ForeignKey("Conversation")]
+        public int ConversationID { get; set; }
+
+        public virtual Conversation Conversation { get; set; }
+
     }
 }

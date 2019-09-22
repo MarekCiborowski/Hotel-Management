@@ -15,9 +15,6 @@ namespace DomainObjects.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoomAmenityId { get; set; }
 
-        [Required]
-        public int Amount { get; set; }
-
         [ForeignKey("Room")]
         public int RoomId { get; set; }
 

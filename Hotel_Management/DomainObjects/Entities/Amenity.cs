@@ -16,6 +16,7 @@ namespace DomainObjects.Entities
         public int AmenityId { get; set; }
 
         [Required]
+        [StringLength(200)]
         public string AmenityName { get; set; }
 
         public virtual ICollection<RoomAmenity> RoomAmenities { get; set; }

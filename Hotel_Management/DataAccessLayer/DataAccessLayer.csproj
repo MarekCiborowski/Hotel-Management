@@ -49,13 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="Migrations\201906082120137_InitialMigration.cs" />
-    <Compile Include="Migrations\201906082120137_InitialMigration.Designer.cs">
-      <DependentUpon>201906082120137_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909141111313_EnumEntities.cs" />
-    <Compile Include="Migrations\201909141111313_EnumEntities.Designer.cs">
-      <DependentUpon>201909141111313_EnumEntities.cs</DependentUpon>
+    <Compile Include="Migrations\201909222142249_initial_migration.cs" />
+    <Compile Include="Migrations\201909222142249_initial_migration.Designer.cs">
+      <DependentUpon>201909222142249_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,11 +67,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906082120137_InitialMigration.resx">
-      <DependentUpon>201906082120137_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909141111313_EnumEntities.resx">
-      <DependentUpon>201909141111313_EnumEntities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909222142249_initial_migration.resx">
+      <DependentUpon>201909222142249_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

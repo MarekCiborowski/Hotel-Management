@@ -17,9 +17,9 @@ namespace DomainObjects.Entities
         public int ReservationId { get; set; }
 
         [Required]
-        public StatusEnum StatusId { get; set; }
+        public ReservationStatusEnum ReservationStatusId { get; set; }
 
-        public Status Status { get; set; }
+        public ReservationStatus ReservationStatus { get; set; }
         
         [ForeignKey("User")]
         public int UserId { get; set; }
@@ -27,7 +27,7 @@ namespace DomainObjects.Entities
         [Required]
         public virtual User User { get; set; }
 
-        public virtual ICollection<Room> Rooms { get; set; }
+        public virtual ICollection<RoomReservation> RoomReservations { get; set; }
 
     }
 }
