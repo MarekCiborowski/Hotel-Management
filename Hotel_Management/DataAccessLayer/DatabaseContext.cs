@@ -17,8 +17,6 @@ namespace DataAccessLayer
 
         public virtual DbSet<Reservation> Reservations { get; set; }
 
-        public virtual DbSet<Review> Reviews { get; set; }
-
         public virtual DbSet<Room> Rooms { get; set; }
 
         public virtual DbSet<RoomAmenity> RoomAmenities { get; set; }
@@ -58,11 +56,6 @@ namespace DataAccessLayer
                 HasMany(p => p.RoomReservations).
                 WithRequired(t => t.Reservation).
                 HasForeignKey(t => t.ReservationId);
-
-            modelBuilder.Entity<Review>().
-                HasRequired(p => p.User).
-                WithMany().
-                WillCascadeOnDelete(false);
 
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
         }

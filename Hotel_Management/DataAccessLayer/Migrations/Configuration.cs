@@ -20,6 +20,7 @@ namespace DataAccessLayer.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+
             context.ReservationStatuses.AddOrUpdate(
             x => x.ReservationStatusId,
             Enum.GetValues(typeof(ReservationStatusEnum))

@@ -99,25 +99,6 @@ namespace DataAccessLayer.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.Review",
-                c => new
-                    {
-                        ReviewId = c.Int(nullable: false, identity: true),
-                        Comment = c.String(nullable: false, maxLength: 500),
-                        Score = c.Boolean(nullable: false),
-                        UserId = c.Int(nullable: false),
-                        ReservationId = c.Int(nullable: false),
-                        User_Identity = c.Int(),
-                    })
-                .PrimaryKey(t => t.ReviewId)
-                .ForeignKey("dbo.Reservation", t => t.ReservationId, cascadeDelete: true)
-                .ForeignKey("dbo.User", t => t.UserId)
-                .ForeignKey("dbo.User", t => t.User_Identity)
-                .Index(t => t.UserId)
-                .Index(t => t.ReservationId)
-                .Index(t => t.User_Identity);
-            
-            CreateTable(
                 "dbo.Roles",
                 c => new
                     {
@@ -176,9 +157,6 @@ namespace DataAccessLayer.Migrations
             DropForeignKey("dbo.RoomReservation", "RoomId", "dbo.Room");
             DropForeignKey("dbo.Reservation", "UserId", "dbo.User");
             DropForeignKey("dbo.User", "RoleId", "dbo.Roles");
-            DropForeignKey("dbo.Review", "User_Identity", "dbo.User");
-            DropForeignKey("dbo.Review", "UserId", "dbo.User");
-            DropForeignKey("dbo.Review", "ReservationId", "dbo.Reservation");
             DropForeignKey("dbo.RoomReservation", "ReservationId", "dbo.Reservation");
             DropForeignKey("dbo.Reservation", "ReservationStatusId", "dbo.ReservationStatus");
             DropForeignKey("dbo.RoomAmenity", "AmenityId", "dbo.Amenity");
@@ -186,9 +164,6 @@ namespace DataAccessLayer.Migrations
             DropIndex("dbo.UserConversation", new[] { "UserID" });
             DropIndex("dbo.Message", new[] { "UserId" });
             DropIndex("dbo.Message", new[] { "ConversationID" });
-            DropIndex("dbo.Review", new[] { "User_Identity" });
-            DropIndex("dbo.Review", new[] { "ReservationId" });
-            DropIndex("dbo.Review", new[] { "UserId" });
             DropIndex("dbo.User", new[] { "RoleId" });
             DropIndex("dbo.User", new[] { "Login" });
             DropIndex("dbo.Reservation", new[] { "UserId" });
@@ -201,7 +176,6 @@ namespace DataAccessLayer.Migrations
             DropTable("dbo.Message");
             DropTable("dbo.Conversation");
             DropTable("dbo.Roles");
-            DropTable("dbo.Review");
             DropTable("dbo.User");
             DropTable("dbo.ReservationStatus");
             DropTable("dbo.Reservation");

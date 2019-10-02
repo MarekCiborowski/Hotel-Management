@@ -54,8 +54,6 @@ namespace DomainObjects.Entities
 
         public virtual Role Role { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
-
         public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

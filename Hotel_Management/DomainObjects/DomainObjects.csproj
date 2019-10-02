@@ -52,7 +52,6 @@
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Reservation.cs" />
-    <Compile Include="Entities\Review.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Room.cs" />
     <Compile Include="Entities\RoomAmenity.cs" />

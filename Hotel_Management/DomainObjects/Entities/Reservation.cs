@@ -29,5 +29,11 @@ namespace DomainObjects.Entities
 
         public virtual ICollection<RoomReservation> RoomReservations { get; set; }
 
+        [Required]
+        public DateTime AccomodationDate { get; set; }
+
+        [Required]
+        public DateTime CheckOutDate { get; set; }
+
     }
 }
