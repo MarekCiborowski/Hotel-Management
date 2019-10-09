@@ -3,22 +3,162 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
+
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
+
 .dl-horizontal dt {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+
 input,
 select,
 textarea {
     max-width: 280px;
+}
+
+body, input, textarea, select, button {
+    background-color: #17181c;
+}
+
+body, input, textarea, select, button {
+    border-color: #575757;
+    color: #e8e7e3;
+}
+
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #1b1d22;
+    color: #d5d2cd;
+    background-image: none;
+}
+
+button {
+    background-color: #17181c;
+    border-color: #575757;
+}
+
+.form-control {
+    background-color: #17181c;
+    color: #c8c5bf;
+    border-color: #3d3d3d;
+}
+
+.alert-success {
+    background-color: #1e3615;
+    color: #a6d2a7;
+    border-color: #446527;
+}
+
+
+
+.container-box {
+    width: 100%;
+    height: 50px;
+    background: #10465e;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.navbar-header {
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: center;
+}
+
+.main {
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    padding: 50px;
+    box-shadow: 0px 10px 45px #10465e;
+    color: #a0d7ef;
+    z-index: 10;
+}
+
+.container-main {
+    display: compact;
+    justify-content: inherit;
+    margin-top: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-menu {
+    color: #b3c6cd;
+    padding: 15px;
+    border-bottom: 3px solid transparent;
+    justify-self: center;
+    text-decoration: none;
+}
+
+    .btn-menu:hover {
+        color: #b3c6cd;
+        border-bottom: 3px solid #b3c6cd;
+    }
+
+.btn-main {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #10465e;
+    padding: 10px;
+    color: #10465e;
+}
+
+.btn-large {
+    width: 50%;
+}
+
+
+.btn-main:hover {
+    background: #10465e;
+    color: #ffffff;
+    border: 3px solid #10465e;
+}
+
+.btn-search {
+    color: #a0d7ef;
+    border: 1px solid #208bba;
+    padding: 9px;
+    background: #26353a;
+}
+
+    .btn-search:hover {
+        color: #b3c6cd;
+        background: #10465e;
+        border: 1px solid #10465e;
+    }
+
+table {
+    border-collapse: separate;
+    border-spacing: 10px 20px;
+    border-width: 5px;
+}
+
+th {
+    background-color: #002f61;
+    border-top: none !important;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid red;
 }
