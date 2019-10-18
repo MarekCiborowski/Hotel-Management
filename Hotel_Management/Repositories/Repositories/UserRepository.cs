@@ -60,7 +60,7 @@ namespace Repositories.Repositories
             }
         }
 
-        public void EditAccount(User editedUser)
+        public User EditUser(User editedUser)
         {
 
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -70,16 +70,18 @@ namespace Repositories.Repositories
                     db.Entry(editedUser).State = EntityState.Modified;
                     db.SaveChanges();
                     dbContextTransaction.Commit();
+                    return editedUser;
                 }
                 catch (Exception)
                 {
                     dbContextTransaction.Rollback();
+                    return editedUser;
                 }
             }
 
         }
 
-        public void RemoveAccount(int? id)
+        public void RemoveUser(int? id)
         {
             if (id == null)
                 throw new ArgumentNullException("Null argument");
@@ -151,12 +153,11 @@ namespace Repositories.Repositories
             }
         }
 
-        public bool IsNicknameCorrect(string login)
+        public bool IsLoginFree(string login)
         {
-            User user = db.Users.FirstOrDefault(u => u.Login == login);
+            var user = db.Users.FirstOrDefault(t => t.Login == login);
             if (user == null)
-                if (login.Length <= 10 && login.Length >= 3)
-                    return true;
+                return true;
             return false;
         }
 

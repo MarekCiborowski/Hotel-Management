@@ -1,4 +1,4 @@
-﻿@model Survey_MVC.ViewModels.Authentication.LoginVM
+﻿@model WebApplication.ViewModels.Authentication.LoginVM
 
 @{
     ViewBag.Title = "Login";
@@ -22,14 +22,14 @@
         {
         <table>
             <tr>
-                <th style="text-align: right">@Html.DisplayNameFor(m => m.username) </th>
-                <td>@Html.EditorFor(m => Model.username , new { htmlAttributes = new { @class = "form-control", placeholder = "Username" } })</td>
+                <th style="text-align: right">@Html.DisplayNameFor(m => m.Username) </th>
+                <td>@Html.EditorFor(m => Model.Username , new { htmlAttributes = new { @class = "form-control", placeholder = "Login" } })</td>
 
             </tr>
 
             <tr>
-                <th style="text-align: right">@Html.DisplayNameFor(m => m.password) </th>
-                <td>@Html.EditorFor(m => Model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password",type="password" } })</td>
+                <th style="text-align: right">@Html.DisplayNameFor(m => m.Password) </th>
+                <td>@Html.EditorFor(m => Model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password",type="password" } })</td>
 
             </tr>
         </table><br/>

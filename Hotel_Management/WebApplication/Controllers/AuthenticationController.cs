@@ -1,16 +1,15 @@
-﻿using DataAccessLayer;
-using DataTransferObjects.Models;
+﻿using BusinessLogic.Services;
+using DataAccessLayer;
 using DomainObjects.Entities;
 using Repositories;
 using Repositories.Repositories;
-using RepositoryLayer.Repositories;
-using Survey_MVC.ViewModels.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using WebApplication.Filters;
 using WebApplication.ViewModels.Authentication;
 
 namespace WebApplication.Controllers
@@ -18,13 +17,13 @@ namespace WebApplication.Controllers
     [AllowAnonymous]
     public class AuthenticationController : Controller
     {
-        private DatabaseContext databaseContext;
-        private UserRepository userRepository;
+        private readonly DatabaseContext databaseContext;
+        private UserService userService;
         
         public AuthenticationController()
         {
             this.databaseContext = new DatabaseContext();
-            this.userRepository = new UserRepository(this.databaseContext);
+            this.userService = new UserService(this.databaseContext);
         }
         // GET: Authentication
         public ActionResult Login()
@@ -37,7 +36,7 @@ namespace WebApplication.Controllers
             if (ModelState.IsValid)
             {
                 User user;
-                if ((user = this.userRepository.GetUser(vm.username, vm.password)) != null)
+                if ((user = this.userService.GetUser(vm.Username, vm.Password)) != null)
                 {
                     Session["CurrentUser"] = user;
                     
@@ -67,34 +66,58 @@ namespace WebApplication.Controllers
         public ActionResult NewUser(NewUserVM newUser)
         {
             bool isValid = true;
-            if (!userSecurityRepository.IsLoginFree(newUser.login))
+            if (!userService.IsLoginFree(newUser.Login))
             {
                 ModelState.AddModelError("login", "Login is already in use.");
                 isValid = false;
             }
-            if (!accountRepository.IsEmailCorrect(newUser.email))
+            if (!userService.IsEmailCorrect(newUser.Email))
             {
                 ModelState.AddModelError("email", "Email is taken or not correct.");
-                isValid = false;
-            }
-            if(!accountRepository.IsNicknameCorrect(newUser.nickname))
-            {
-                ModelState.AddModelError("nickname", "This nickname is taken or not correct. Length of nickname is 3-10 characters.");
                 isValid = false;
             }
             
             if (ModelState.IsValid && isValid)
             {
-                UserSecurity userSecurity = userSecurityRepository.CreateUserSecurity(newUser.login, newUser.password);
-                PersonData personData = personDataRepository.CreatePersonData(newUser.address,
-                    newUser.city, newUser.zipcode, newUser.state, newUser.country);
-                Account account = accountRepository.CreateAccount(personData, newUser.email, newUser.nickname, userSecurity);
-                accountRepository.AddAccount(account);
-                TempData["message"] = "Successfully added new account: " + account.nickname;
+                var user = this.userService.AddUser(newUser.ToEntityModel());
+                TempData["message"] = "Successfully added new account: " + user.Login;
                 return RedirectToAction("Login");
 
             }
            
+            return View(newUser);
+        }
+
+        [AdminAuthorizationFilter]
+        public ActionResult NewAdmin()
+        {
+            return View();
+        }
+
+        [AdminAuthorizationFilter]
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult NewAdmin(NewUserVM newUser)
+        {
+            bool isValid = true;
+            if (!userService.IsLoginFree(newUser.Login))
+            {
+                ModelState.AddModelError("login", "Login is already in use.");
+                isValid = false;
+            }
+            if (!userService.IsEmailCorrect(newUser.Email))
+            {
+                ModelState.AddModelError("email", "Email is taken or not correct.");
+                isValid = false;
+            }
+
+            if (ModelState.IsValid && isValid)
+            {
+                var user = this.userService.AddAdmin(newUser.ToEntityModel());
+                TempData["message"] = "Successfully added new account: " + user.Login;
+                return RedirectToAction("Login");
+
+            }
+
             return View(newUser);
         }
     }

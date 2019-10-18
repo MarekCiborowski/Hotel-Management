@@ -23,6 +23,7 @@ namespace WebApplication.Filters
             if (HttpContext.Current.Session["CurrentUser"] == null)
             {
                 filterContext.Result = new HttpUnauthorizedResult();
+                filterContext.Controller.TempData["message"] = "You must be logged as admin to browse this page";
             }
             else
             {
@@ -30,7 +31,9 @@ namespace WebApplication.Filters
                 if(currentUser.RoleId != RolesEnum.Admin)
                 {
                     filterContext.Result = new HttpUnauthorizedResult();
+                    filterContext.Controller.TempData["message"] = "You must be logged as admin to browse this page";
                 }
+
             }
         }
     }

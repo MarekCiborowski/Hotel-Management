@@ -23,6 +23,7 @@ namespace WebApplication.Filters
             if (HttpContext.Current.Session["CurrentUser"] == null)
             {
                 filterContext.Result = new HttpUnauthorizedResult();
+                filterContext.Controller.TempData["message"] = "You must be logged as regular user to browse this page";
             }
             else
             {
@@ -30,6 +31,7 @@ namespace WebApplication.Filters
                 if (currentUser.RoleId != RolesEnum.RegularUser)
                 {
                     filterContext.Result = new HttpUnauthorizedResult();
+                    filterContext.Controller.TempData["message"] = "You must be logged as regular user to browse this page";
                 }
             }
         }

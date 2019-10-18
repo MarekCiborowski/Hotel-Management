@@ -11,9 +11,9 @@ namespace WebApplication.ViewModels.Authentication
 
         [Display(Name = "Username")]
         [Required(ErrorMessage = "Username required")]
-        public string username { get; set; }
+        public string Username { get; set; }
         [Required(ErrorMessage = "Password required")]
         [Display(Name = "Password")]
-        public string password { get; set; }
+        public string Password { get; set; }
     }
 }
