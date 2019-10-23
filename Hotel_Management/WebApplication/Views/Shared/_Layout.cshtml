@@ -19,7 +19,7 @@
             <div class="navbar-header">
                 @{ var user = (DomainObjects.Entities.User)Session["CurrentUser"];}
                 @{ bool isAuthenticated = user != null;}
-                @if (isAuthenticated)
+                @if (isAuthenticated && user.RoleId == DomainObjects.Enums.RolesEnum.Admin)
                 {
                     <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
                     <a class="btn-menu" href="@Url.Action("MySurveys","Home")">My surveys</a>
@@ -31,7 +31,10 @@
                     <a class="btn-menu" href="@Url.Action("Followed","Account")">Followed</a>
                     <a class="btn-menu" href="@Url.Action("Following","Account")">Followers</a>
                 }
+                else if (isAuthenticated)
+                {
 
+                }
                 else
                 {
                     <a class="btn-menu" href="@Url.Action("Login", "Authentication")">Login</a>

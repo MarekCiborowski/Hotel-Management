@@ -161,6 +161,19 @@ namespace Repositories.Repositories
             return false;
         }
 
+        public User ConfirmUser(int? id)
+        {
+            if (!id.HasValue)
+            {
+                throw new ArgumentNullException("Null argument");
+            }
+
+            var userToValidate = db.Users.FirstOrDefault(u => u.Identity == id);
+            userToValidate.IsConfirmed = true;
+            this.EditUser(userToValidate);
+            return userToValidate;
+        }
+
     }
 
 }

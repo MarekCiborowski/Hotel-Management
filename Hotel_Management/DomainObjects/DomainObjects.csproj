@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\RoomWithAmenities.cs" />
+    <Compile Include="Dto\RoomWithReservations.cs" />
     <Compile Include="Entities\Amenity.cs" />
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\Message.cs" />
@@ -69,6 +71,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
