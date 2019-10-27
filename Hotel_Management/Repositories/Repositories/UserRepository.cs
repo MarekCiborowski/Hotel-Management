@@ -174,6 +174,13 @@ namespace Repositories.Repositories
             return userToValidate;
         }
 
+        public List<User> GetUnconfirmedUsers()
+        {
+            var unconfirmedUsers = db.Users.Where(u => !u.IsConfirmed).ToList();
+
+            return unconfirmedUsers;
+        }
+
     }
 
 }

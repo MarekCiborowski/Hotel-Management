@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DomainObjects.Enums;
 
 namespace Repositories.Repositories
 {
@@ -125,6 +126,20 @@ namespace Repositories.Repositories
             var roomAmenities = db.Amenities.Where(a => db.RoomAmenities.Where(ra => ra.RoomId == roomId).Any(ra => ra.AmenityId == a.AmenityId)).ToList();
 
             return roomAmenities;
+        }
+
+        public List<Room> GetAvailableRooms(DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, List<int> requestedAmenityIds, int numberOfGuests)
+        {
+            var availableRooms = db.Rooms
+                .Where(room => !db.Reservations
+                    .Where(reservation => room.RoomReservations.Select(rr => rr.ReservationId).Contains(reservation.ReservationId)
+                        && ((reservation.CheckOutDate > requestedAccomodationDate && reservation.AccomodationDate <= requestedAccomodationDate)
+                            || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate))
+                        && reservation.ReservationStatusId != ReservationStatusEnum.Canceled).Any()
+                    && this.GetRoomsWithAmenities(requestedAmenityIds).Select(r => r.RoomId).Contains(room.RoomId)
+                    && room.MaxNumberOfGuests >= numberOfGuests).ToList();
+
+            return availableRooms;
         }
     }
 }

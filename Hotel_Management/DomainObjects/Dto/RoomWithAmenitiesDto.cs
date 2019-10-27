@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DomainObjects.Dto
 {
-    public class RoomWithAmenities
+    public class RoomWithAmenitiesDto
     {
         public Room Room { get; set; }
 

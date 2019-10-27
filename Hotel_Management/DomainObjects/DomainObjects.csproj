@@ -51,8 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\RoomWithAmenities.cs" />
-    <Compile Include="Dto\RoomWithReservations.cs" />
+    <Compile Include="Dto\ConversationDto.cs" />
+    <Compile Include="Dto\MessageDto.cs" />
+    <Compile Include="Dto\RoomWithAmenitiesDto.cs" />
+    <Compile Include="Dto\RoomWithReservationsDto.cs" />
     <Compile Include="Entities\Amenity.cs" />
     <Compile Include="Entities\Conversation.cs" />
     <Compile Include="Entities\Message.cs" />

@@ -24,12 +24,9 @@
                     <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
                     <a class="btn-menu" href="@Url.Action("MySurveys","Home")">My surveys</a>
                     <a class="btn-menu" href="@Url.Action("FilledSurveys","Home")">Completed surveys</a>
+                    <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
-                    <a class="btn-menu" href="@Url.Action("MyProfile","Account")">My profile</a>
-                    <a class="btn-menu" href="@Url.Action("CreateSurvey","Home")">Create survey</a>
-                    <a class="btn-menu" href="@Url.Action("Index","Account")">All users</a>
-                    <a class="btn-menu" href="@Url.Action("Followed","Account")">Followed</a>
-                    <a class="btn-menu" href="@Url.Action("Following","Account")">Followers</a>
+                    <a class="btn-menu" href=""
                 }
                 else if (isAuthenticated)
                 {

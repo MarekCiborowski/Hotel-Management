@@ -29,6 +29,7 @@ namespace BusinessLogic.Services
         public User AddAdmin(User user)
         {
             user.RoleId = RolesEnum.Admin;
+            user.IsConfirmed = true;
             this.userRepository.AddUser(user);
             return user;
         }
@@ -58,6 +59,16 @@ namespace BusinessLogic.Services
         public bool IsEmailCorrect (string email)
         {
             return this.userRepository.IsEmailCorrect(email);
+        }
+
+        public void ConfirmUser(int userId)
+        {
+            this.userRepository.ConfirmUser(userId);
+        }
+
+        public List<User> GetUnconfirmedUsers()
+        {
+            return this.userRepository.GetUnconfirmedUsers();
         }
     }
 }

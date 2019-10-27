@@ -31,7 +31,7 @@ namespace WebApplication.ViewModels.Authentication
 
         [Display(Name = "Repeat password")]
         [Required(ErrorMessage = "Password must be repeated")]
-        [CompareAttribute("password", ErrorMessage = "Passwords are not the same.")]
+        [Compare("Password", ErrorMessage = "Passwords are not the same.")]
         public string RepeatPassword { get; set; }
 
         [Display(Name = "Address")]
