@@ -16,6 +16,7 @@ namespace Repositories.Repositories
         {
             this.db = databaseContext;
         }
+
         public Amenity AddAmenity (string amenityName)
         {
             var newAmenity = new Amenity
@@ -68,6 +69,11 @@ namespace Repositories.Repositories
                     dbContextTransaction.Rollback();
                 }
             }
+        }
+
+        public List<Amenity> GetAllAmenities()
+        {
+            return this.db.Amenities.ToList();
         }
     }
 }

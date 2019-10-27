@@ -12,12 +12,12 @@ namespace BusinessLogic.Services
     public class RoomService
     {
         private AmenityRepository amenityRepository;
-        private RoomService roomService;
+        private RoomRepository roomRepository;
 
         public RoomService(DatabaseContext context)
         {
             this.amenityRepository = new AmenityRepository(context);
-            this.roomService = new RoomService(context);
+            this.roomRepository = new RoomRepository(context);
         }
 
         public Amenity AddAmenity(string amenityName)
@@ -39,10 +39,13 @@ namespace BusinessLogic.Services
 
         public List<Room> GetRoomsWithAmenities (List<int> amenityIds)
         {
-            return this.roomService.GetRoomsWithAmenities(amenityIds);
+            return this.roomRepository.GetRoomsWithAmenities(amenityIds);
         }
 
-        
+        public List<Amenity> GetAllAmenities()
+        {
+            return this.amenityRepository.GetAllAmenities();
+        }
 
 
     }
