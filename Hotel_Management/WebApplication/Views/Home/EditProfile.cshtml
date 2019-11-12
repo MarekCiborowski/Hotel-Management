@@ -1,0 +1,103 @@
+﻿@model WebApplication.ViewModels.Home.MyProfileVM
+@{
+    ViewBag.Title = "EditProfile";
+}
+
+<h2>Edit Profile</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "Error occured while editing  account", new { @class = "text-danger" })
+<table style=" float:left">
+    <tr>
+        <td>
+            @Html.LabelFor(m => m.nickname, htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.EditorFor(m => m.nickname, new { htmlAttributes = new { @Value = @Model.nickname, @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.nickname, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(m => m.email, htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.EditorFor(m => m.email, new { htmlAttributes = new { @Value = @Model.email, @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="display:flex; flex-direction:column">
+                @Html.LabelFor(m => m.isProfilePublic, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <div>@Html.RadioButtonFor(m => m.isProfilePublic, "false", new { @checked = "checked" }) <label>Private</label></div>
+                <div>@Html.RadioButtonFor(m => m.isProfilePublic, "true") <label>Public</label></div>
+            </div>
+            
+        </td>
+    </tr>
+
+</table>
+    <table>
+
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.country, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(m => m.country, new { htmlAttributes = new { @class = "form-control", placeholder = "Country" } })
+                @Html.ValidationMessageFor(m => m.country, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.state, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(m => m.state, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
+                @Html.ValidationMessageFor(m => m.state, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.city, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(m => m.city, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+                @Html.ValidationMessageFor(m => m.city, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(m => m.zipcode, new { htmlAttributes = new { @class = "form-control", placeholder = "Zipcode" } })
+                @Html.ValidationMessageFor(m => m.zipcode, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.address, htmlAttributes: new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(m => m.address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+                @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+
+    </table>
+
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Edit profile" class="btn btn-search" />
+        </div>
+    </div>
+
+}

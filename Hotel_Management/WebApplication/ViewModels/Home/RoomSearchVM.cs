@@ -18,6 +18,7 @@ namespace WebApplication.ViewModels.Home
 
         public List<AmenitySearchVM> AmenitiesToSearch { get; set; }
 
+        [Display(Name = "Number of guests")]
         public int NumberOfGuests { get; set; }
 
         public string[] SelectedAmenityIds { get; set; }

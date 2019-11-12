@@ -27,14 +27,16 @@
                     <a class="btn-menu" href="@Url.Action("FilledSurveys","Home")">Completed surveys</a>
                     <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
-                    <a class="btn-menu" href=""
                 }
                 else if (isAuthenticated)
                 {
-
+                    <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
+                    <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
+                    <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
                 }
                 else
                 {
+                    <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
                     <a class="btn-menu" href="@Url.Action("Login", "Authentication")">Login</a>
                     <a class="btn-menu" href="@Url.Action("NewUser", "Authentication")">New account</a>
                 }

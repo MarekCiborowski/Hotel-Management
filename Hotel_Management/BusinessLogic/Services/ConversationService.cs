@@ -48,5 +48,19 @@ namespace BusinessLogic.Services
 
             return userConversations;
         }
+
+        public Conversation AddConversationWithInitialMessage(int senderId, int receiverId, string message, string conversationTitle)
+        {
+            var newConversation = this.conversationRepository.AddConversationWithInitialMessage(senderId, receiverId, message, conversationTitle);
+
+            return newConversation;
+        }
+
+        public Message AddMessageToConversation(string messageContent, int senderId, int conversationId)
+        {
+            var message = this.messageRepository.AddMessageToConversation(messageContent, senderId, conversationId);
+
+            return message;
+        }
     }
 }

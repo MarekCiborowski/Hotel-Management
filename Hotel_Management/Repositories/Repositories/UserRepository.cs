@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static DomainObjects.Enums;
 
 namespace Repositories.Repositories
 {
@@ -179,6 +180,19 @@ namespace Repositories.Repositories
             var unconfirmedUsers = db.Users.Where(u => !u.IsConfirmed).ToList();
 
             return unconfirmedUsers;
+        }
+
+        public User GetAdminUserWithLeastUserConversations()
+        {
+            var adminUserWithLeastUserConversations = db.Users.FirstOrDefault(u => db.UserConversations
+                .Where(uc => db.Users.Where(us => us.RoleId == RolesEnum.Admin).Select(us => us.Identity).Contains(uc.UserID)).GroupBy(uc => uc.UserID)
+                    .Select(group => new
+                    {
+                        UserId = group.Key,
+                        Count = group.Count()
+                    }).OrderByDescending(g => g.Count).First().UserId == u.Identity);
+
+            return adminUserWithLeastUserConversations;
         }
 
     }

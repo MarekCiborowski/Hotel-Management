@@ -8,7 +8,7 @@ using static DomainObjects.Enums;
 
 namespace WebApplication.Filters
 {
-    public class UserAuthoriationFilter : AuthorizeAttribute, IAuthorizationFilter
+    public class UserAuthorizationFilter : AuthorizeAttribute, IAuthorizationFilter
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
         {

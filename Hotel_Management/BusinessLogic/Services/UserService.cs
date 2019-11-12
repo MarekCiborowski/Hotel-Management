@@ -70,5 +70,11 @@ namespace BusinessLogic.Services
         {
             return this.userRepository.GetUnconfirmedUsers();
         }
+
+        public User GetAdminUserWithLeastUserConversations()
+        {
+            return this.userRepository.GetAdminUserWithLeastUserConversations();
+        }
+
     }
 }
