@@ -104,125 +104,124 @@ namespace WebApplication.Controllers
             return View(newConversationDto);
         }
 
-        public ActionResult MyProfile()
-        {
-            Account account = (Account)Session["CurrentUser"];
-            MyProfileVM myProfileVM = new MyProfileVM
-            {
-                login = account.userSecurity.login,
-                email = account.email,
-                nickname = account.nickname,
-                address = account.personData.address,
-                city = account.personData.city,
-                country = account.personData.country,
-                state = account.personData.state,
-                zipcode = account.personData.zipcode,
-                isProfilePublic = account.personData.isProfilePublic,
-            };
-            myProfileVM.followers = accountRepository.GetQuantityOfFollowersByID(account.accountID);
-            myProfileVM.followed = accountRepository.GetFollowedAccounts(account.accountID).Count;
-            return View(myProfileVM);
-        }
+        //public ActionResult MyProfile()
+        //{
+        //    Account account = (Account)Session["CurrentUser"];
+        //    MyProfileVM myProfileVM = new MyProfileVM
+        //    {
+        //        login = account.userSecurity.login,
+        //        Email = account.email,
+        //        nickname = account.nickname,
+        //        address = account.personData.address,
+        //        city = account.personData.city,
+        //        country = account.personData.country,
+        //        state = account.personData.state,
+        //        zipcode = account.personData.zipcode,
+        //        isProfilePublic = account.personData.isProfilePublic,
+        //    };
+        //    myProfileVM.followers = accountRepository.GetQuantityOfFollowersByID(account.accountID);
+        //    myProfileVM.followed = accountRepository.GetFollowedAccounts(account.accountID).Count;
+        //    return View(myProfileVM);
+        //}
 
-        public ActionResult EditProfile()
-        {
-            Account account = (Account)Session["CurrentUser"];
-            MyProfileVM myProfileVM = new MyProfileVM
-            {
-                login = account.userSecurity.login,
-                email = account.email,
-                nickname = account.nickname,
-                address = account.personData.address,
-                city = account.personData.city,
-                country = account.personData.country,
-                state = account.personData.state,
-                zipcode = account.personData.zipcode,
-                isProfilePublic = account.personData.isProfilePublic
-            };
-            return View(myProfileVM);
-        }
+        //public ActionResult EditProfile()
+        //{
+        //    User user = (User)Session["CurrentUser"];
+        //    MyProfileVM myProfileVM = new MyProfileVM
+        //    {
+        //        login = user.login,
+        //        Email = user.email,
+        //        nickname = user.nickname,
+        //        address = user.personData.address,
+        //        city = user.personData.city,
+        //        country = user.personData.country,
+        //        state = user.personData.state,
+        //        zipcode = user.personData.zipcode,
+        //        isProfilePublic = user.personData.isProfilePublic
+        //    };
+        //    return View(myProfileVM);
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditProfile(MyProfileVM myProfileVM)
-        {
-            Account account = (Account)Session["CurrentUser"];
-            bool isValid = true;
-            if (account.email != myProfileVM.email)
-                if (!accountRepository.IsEmailCorrect(myProfileVM.email))
-                {
-                    ModelState.AddModelError("email", "Email is taken or not correct.");
-                    isValid = false;
-                }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult EditProfile(MyProfileVM myProfileVM)
+        //{
+        //    Account account = (Account)Session["CurrentUser"];
+        //    bool isValid = true;
+        //    if (account.email != myProfileVM.Email)
+        //        if (!accountRepository.IsEmailCorrect(myProfileVM.Email))
+        //        {
+        //            ModelState.AddModelError("email", "Email is taken or not correct.");
+        //            isValid = false;
+        //        }
 
-            if (account.nickname != myProfileVM.nickname)
-                if (!accountRepository.IsNicknameCorrect(myProfileVM.nickname))
-                {
-                    ModelState.AddModelError("nickname", "This nickname is taken or not correct. Length of nickname is 3-10 characters.");
-                    isValid = false;
-                }
+        //    if (account.nickname != myProfileVM.nickname)
+        //        if (!accountRepository.IsNicknameCorrect(myProfileVM.nickname))
+        //        {
+        //            ModelState.AddModelError("nickname", "This nickname is taken or not correct. Length of nickname is 3-10 characters.");
+        //            isValid = false;
+        //        }
 
-            if (ModelState.IsValid && isValid)
-            {
-                Account editedAccount = accountRepository.GetAccount(account.accountID);
-                editedAccount.personData.address = myProfileVM.address;
-                editedAccount.personData.city = myProfileVM.city;
-                editedAccount.personData.zipcode = myProfileVM.zipcode;
-                editedAccount.personData.country = myProfileVM.country;
+        //    if (ModelState.IsValid && isValid)
+        //    {
+        //        Account editedAccount = accountRepository.GetAccount(account.accountID);
+        //        editedAccount.personData.address = myProfileVM.address;
+        //        editedAccount.personData.city = myProfileVM.city;
+        //        editedAccount.personData.zipcode = myProfileVM.zipcode;
+        //        editedAccount.personData.country = myProfileVM.country;
 
-                editedAccount.email = myProfileVM.email;
-                editedAccount.nickname = myProfileVM.nickname;
+        //        editedAccount.email = myProfileVM.Email;
+        //        editedAccount.nickname = myProfileVM.nickname;
 
-                editedAccount.personData.isProfilePublic = myProfileVM.isProfilePublic;
+        //        editedAccount.personData.isProfilePublic = myProfileVM.isProfilePublic;
 
-                accountRepository.EditAccount(editedAccount);
+        //        accountRepository.EditAccount(editedAccount);
 
-                Session["CurrentUser"] = editedAccount;
-                TempData["message"] = "Successfully edited profile: " + editedAccount.nickname;
-                return RedirectToAction("MyProfile", "Account");
-            }
+        //        Session["CurrentUser"] = editedAccount;
+        //        TempData["message"] = "Successfully edited profile: " + editedAccount.nickname;
+        //        return RedirectToAction("MyProfile", "Account");
+        //    }
 
-            return View(myProfileVM);
-        }
+        //    return View(myProfileVM);
+        //}
 
-        public ActionResult ChangePassword()
-        {
-            Account account = (Account)Session["CurrentUser"];
-            ChangePasswordVM changePasswordVM = new ChangePasswordVM();
-            return View(changePasswordVM);
-        }
+        //public ActionResult ChangePassword()
+        //{
+        //    ChangePasswordVM changePasswordVM = new ChangePasswordVM();
+        //    return View(changePasswordVM);
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword(ChangePasswordVM changePasswordVM)
-        {
-            Account account = (Account)Session["CurrentUser"];
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ChangePassword(ChangePasswordVM changePasswordVM)
+        //{
+        //    Account account = (Account)Session["CurrentUser"];
 
-            UserSecurityRepository userSecurityRepository = new UserSecurityRepository();
+        //    UserSecurityRepository userSecurityRepository = new UserSecurityRepository();
 
-            UserSecurity oldPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.oldPassword);
+        //    UserSecurity oldPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.oldPassword);
 
-            UserSecurity newPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.newPassword);
+        //    UserSecurity newPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.newPassword);
 
-            UserSecurity repeatPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.repeatPassword);
+        //    UserSecurity repeatPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.repeatPassword);
 
-            bool isValid = true;
-            if (oldPassword.password != account.userSecurity.password)
-            {
-                ModelState.AddModelError("oldPassword", "The enter password is different from the old password.");
-                isValid = false;
-            }
-            if (ModelState.IsValid && isValid)
-            {
-                Account editedAccount = accountRepository.GetAccount(account.accountID);
-                editedAccount.userSecurity.password = newPassword.password;
+        //    bool isValid = true;
+        //    if (oldPassword.password != account.userSecurity.password)
+        //    {
+        //        ModelState.AddModelError("oldPassword", "The enter password is different from the old password.");
+        //        isValid = false;
+        //    }
+        //    if (ModelState.IsValid && isValid)
+        //    {
+        //        Account editedAccount = accountRepository.GetAccount(account.accountID);
+        //        editedAccount.userSecurity.password = newPassword.password;
 
-                accountRepository.EditAccount(editedAccount);
-                Session["CurrentUser"] = editedAccount;
-                TempData["message"] = "Successfully password was changed!";
-                return RedirectToAction("MyProfile", "Account");
-            }
-            return View(changePasswordVM);
-        }
+        //        accountRepository.EditAccount(editedAccount);
+        //        Session["CurrentUser"] = editedAccount;
+        //        TempData["message"] = "Successfully password was changed!";
+        //        return RedirectToAction("MyProfile", "Account");
+        //    }
+        //    return View(changePasswordVM);
+        //}
     }
 }

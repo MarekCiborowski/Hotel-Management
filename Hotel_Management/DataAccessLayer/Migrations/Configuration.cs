@@ -34,6 +34,13 @@ namespace DataAccessLayer.Migrations
                 .OfType<RolesEnum>()
                 .Select(x => new Role() { RoleId = x, Name = x.ToString() })
                 .ToArray());
+
+            context.HotelBookingSites.AddOrUpdate(
+            x => x.HotelBookingSiteId,
+            Enum.GetValues(typeof(HotelBookingSiteEnum))
+                .OfType<HotelBookingSiteEnum>()
+                .Select(x => new HotelBookingSite() { HotelBookingSiteId = x, Name = x.ToString() })
+                .ToArray());
         }
     }
 }

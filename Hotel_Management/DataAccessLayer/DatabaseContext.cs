@@ -35,6 +35,8 @@ namespace DataAccessLayer
 
         public virtual DbSet<RoomReservation> RoomReservations { get; set; }
 
+        public virtual DbSet<HotelBookingSite> HotelBookingSites { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -45,6 +47,10 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<Role>()
                 .Property(s => s.RoleId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            modelBuilder.Entity<HotelBookingSite>()
+                .Property(s => s.HotelBookingSiteId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             modelBuilder.Entity<Room>().

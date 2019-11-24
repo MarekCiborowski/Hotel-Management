@@ -21,6 +21,8 @@ namespace DomainObjects.Entities
         [Required]
         public int MaxNumberOfGuests { get; set; }
 
+        public decimal RoomSize { get; set; }
+
         public virtual ICollection<RoomReservation> RoomReservations { get; set; }
 
         public virtual ICollection<RoomAmenity> RoomAmenities { get; set; }

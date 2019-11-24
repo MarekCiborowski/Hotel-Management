@@ -10,11 +10,8 @@ namespace WebApplication.ViewModels.Home
     {
         [Required(ErrorMessage = "Email required")]
         [Display(Name = "Email")]
-        public string email { get; set; }
+        public string Email { get; set; }
 
-        [Display(Name = "Nickname")]
-        [Required(ErrorMessage = "Nickname required")]
-        public string nickname { get; set; }
 
         [Display(Name = "Login")]
         public string login { get; set; }

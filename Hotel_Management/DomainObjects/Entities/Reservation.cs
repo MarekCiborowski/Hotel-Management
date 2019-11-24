@@ -30,6 +30,11 @@ namespace DomainObjects.Entities
         public virtual ICollection<RoomReservation> RoomReservations { get; set; }
 
         [Required]
+        public HotelBookingSiteEnum HotelBookingSiteId { get; set; }
+
+        public virtual HotelBookingSite HotelBookingSite { get; set; }
+
+        [Required]
         public DateTime AccomodationDate { get; set; }
 
         [Required]
