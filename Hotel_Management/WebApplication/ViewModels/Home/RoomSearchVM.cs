@@ -21,6 +21,9 @@ namespace WebApplication.ViewModels.Home
         [Display(Name = "Number of guests")]
         public int NumberOfGuests { get; set; }
 
+        [Display(Name = "Room size [square meters]")]
+        public decimal RoomSize { get; set; }
+
         public string[] SelectedAmenityIds { get; set; }
 
         public List<RoomVM> FoundRooms { get; set; } = new List<RoomVM>();

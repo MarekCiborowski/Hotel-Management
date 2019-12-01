@@ -23,8 +23,8 @@
                 @if (isAuthenticated && user.RoleId == DomainObjects.Enums.RolesEnum.Admin)
                 {
                     <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
-                    <a class="btn-menu" href="@Url.Action("MySurveys","Home")">My surveys</a>
-                    <a class="btn-menu" href="@Url.Action("FilledSurveys","Home")">Completed surveys</a>
+                    <a class="btn-menu" href="@Url.Action("Conversations","Home")">Conversations</a>
+                    <a class="btn-menu" href="@Url.Action("Reservations","Home")">Reservations</a>
                     <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
                 }

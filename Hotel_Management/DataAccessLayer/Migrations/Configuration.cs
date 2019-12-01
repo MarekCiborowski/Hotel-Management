@@ -41,6 +41,20 @@ namespace DataAccessLayer.Migrations
                 .OfType<HotelBookingSiteEnum>()
                 .Select(x => new HotelBookingSite() { HotelBookingSiteId = x, Name = x.ToString() })
                 .ToArray());
+
+            context.Users.Add(new User
+            {
+                Address = "Mickiewicza 1",
+                City = "Warszawa",
+                Email = "email@email.email",
+                FirstName = "Jan",
+                LastName = "Kowalski",
+                IsConfirmed = true,
+                Login = "admin",
+                RoleId = RolesEnum.Admin,
+                Zipcode = "11-111",
+                Password = "21232F297A57A5A743894A0E4A801FC3"
+            });
         }
     }
 }

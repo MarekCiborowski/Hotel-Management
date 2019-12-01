@@ -105,7 +105,7 @@ namespace Repositories.Repositories
             }
         }
 
-        private string HashPassword(string password)
+        public string HashPassword(string password)
         {
             MD5 hash = MD5.Create();
 

@@ -22,13 +22,13 @@
         {
         <table>
             <tr>
-                <th style="text-align: right">@Html.DisplayNameFor(m => m.Username) </th>
+                <td style="text-align: right">@Html.LabelFor(m => m.Username) </td>
                 <td>@Html.EditorFor(m => Model.Username , new { htmlAttributes = new { @class = "form-control", placeholder = "Login" } })</td>
 
             </tr>
 
             <tr>
-                <th style="text-align: right">@Html.DisplayNameFor(m => m.Password) </th>
+                <td style="text-align: right">@Html.LabelFor(m => m.Password) </td>
                 <td>@Html.EditorFor(m => Model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password",type="password" } })</td>
 
             </tr>

@@ -5,10 +5,12 @@ using DomainObjects.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Filters;
 using WebApplication.ViewModels.Home;
+using static DomainObjects.Enums;
 
 namespace WebApplication.Controllers
 {
@@ -18,6 +20,7 @@ namespace WebApplication.Controllers
         private UserService userService;
         private RoomService roomService;
         private ConversationService conversationService;
+        private ReservationService reservationService;
 
         public HomeController()
         {
@@ -25,6 +28,7 @@ namespace WebApplication.Controllers
             this.userService = new UserService(this.databaseContext);
             this.roomService = new RoomService(this.databaseContext);
             this.conversationService = new ConversationService(this.databaseContext);
+            this.reservationService = new ReservationService(this.databaseContext);
         }
 
         public ActionResult Index()
@@ -44,6 +48,28 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult Index(RoomSearchVM roomSearchVM)
         {
+            var foundRooms = this.roomService.GetAvailableRooms(roomSearchVM.AccomodationDate, roomSearchVM.CheckOutDate, roomSearchVM.SelectedAmenityIds, roomSearchVM.NumberOfGuests, roomSearchVM.RoomSize);
+            var foundRoomsVM = new List<RoomVM>();
+            foreach(var foundRoom in foundRooms)
+            {
+                var amenities = this.roomService.GetAmenitiesOfRoom(foundRoom.RoomId);
+                var amenitiesString = new StringBuilder();
+                foreach(var amenity in amenities)
+                {
+                    amenitiesString.Append(amenity.AmenityName + ", ");
+                }
+
+                foundRoomsVM.Add(new RoomVM
+                {
+                    Amenities = amenitiesString.ToString(),
+                    Cost = foundRoom.Cost,
+                    MaxNumberOfGuests = foundRoom.MaxNumberOfGuests,
+                    RoomNumber = foundRoom.RoomId,
+                    RoomSize = foundRoom.RoomSize
+                });
+            }
+
+            roomSearchVM.FoundRooms = foundRoomsVM;
             return View(roomSearchVM);
         }
 
@@ -58,6 +84,39 @@ namespace WebApplication.Controllers
             });
 
             return View(conversationsVM);
+        }
+
+        public ActionResult MakeReservation(int roomId, DateTime accomodationDate, DateTime checkOutDate)
+        {
+            var room = this.roomService.GetRoom(roomId);
+            var amenities = this.roomService.GetAmenitiesOfRoom(roomId);
+            var amenitiesString = new StringBuilder();
+            foreach (var amenity in amenities)
+            {
+                amenitiesString.Append(amenity.AmenityName + ", ");
+            }
+
+            var makeReservationVM = new MakeReservationVM
+            {
+                RoomId = room.RoomId,
+                Amenities = amenitiesString.ToString(),
+                RoomSize = room.RoomSize,
+                Cost = room.Cost,
+                MaxNumberOfGuests = room.MaxNumberOfGuests,
+                AccomodationDate = accomodationDate,
+                CheckOutDate = checkOutDate
+            };
+
+            return View(makeReservationVM);
+        }
+
+        public ActionResult SendReservation(MakeReservationVM makeReservationVM)
+        {
+            var user = (User)Session["CurrentUser"];
+            this.reservationService.AddReservation(makeReservationVM.RoomId, user.Identity, makeReservationVM.AccomodationDate, makeReservationVM.CheckOutDate, ReservationStatusEnum.AwaitingConfirmation);
+            TempData["message"] = "Successfully sent reservation";
+
+            return Index();
         }
 
         public ActionResult Conversation(int conversationId)
@@ -104,124 +163,104 @@ namespace WebApplication.Controllers
             return View(newConversationDto);
         }
 
-        //public ActionResult MyProfile()
-        //{
-        //    Account account = (Account)Session["CurrentUser"];
-        //    MyProfileVM myProfileVM = new MyProfileVM
-        //    {
-        //        login = account.userSecurity.login,
-        //        Email = account.email,
-        //        nickname = account.nickname,
-        //        address = account.personData.address,
-        //        city = account.personData.city,
-        //        country = account.personData.country,
-        //        state = account.personData.state,
-        //        zipcode = account.personData.zipcode,
-        //        isProfilePublic = account.personData.isProfilePublic,
-        //    };
-        //    myProfileVM.followers = accountRepository.GetQuantityOfFollowersByID(account.accountID);
-        //    myProfileVM.followed = accountRepository.GetFollowedAccounts(account.accountID).Count;
-        //    return View(myProfileVM);
-        //}
+        public ActionResult MyProfile()
+        {
+            User user = (User)Session["CurrentUser"];
+            MyProfileVM myProfileVM = new MyProfileVM
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                City = user.City,
+                Email = user.Email,
+                Zipcode = user.Zipcode
+            };
+            return View(myProfileVM);
+        }
 
-        //public ActionResult EditProfile()
-        //{
-        //    User user = (User)Session["CurrentUser"];
-        //    MyProfileVM myProfileVM = new MyProfileVM
-        //    {
-        //        login = user.login,
-        //        Email = user.email,
-        //        nickname = user.nickname,
-        //        address = user.personData.address,
-        //        city = user.personData.city,
-        //        country = user.personData.country,
-        //        state = user.personData.state,
-        //        zipcode = user.personData.zipcode,
-        //        isProfilePublic = user.personData.isProfilePublic
-        //    };
-        //    return View(myProfileVM);
-        //}
+        public ActionResult EditProfile()
+        {
+            User user = (User)Session["CurrentUser"];
+            MyProfileVM myProfileVM = new MyProfileVM
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                City = user.City,
+                Email = user.Email,
+                Zipcode = user.Zipcode
+            };
+            return View(myProfileVM);
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditProfile(MyProfileVM myProfileVM)
-        //{
-        //    Account account = (Account)Session["CurrentUser"];
-        //    bool isValid = true;
-        //    if (account.email != myProfileVM.Email)
-        //        if (!accountRepository.IsEmailCorrect(myProfileVM.Email))
-        //        {
-        //            ModelState.AddModelError("email", "Email is taken or not correct.");
-        //            isValid = false;
-        //        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(MyProfileVM myProfileVM)
+        {
+            User editedUser = (User)Session["CurrentUser"];
+            bool isValid = true;
+            if (editedUser.Email != myProfileVM.Email)
+                if (!userService.IsEmailCorrect(myProfileVM.Email))
+                {
+                    ModelState.AddModelError("email", "Email is taken or not correct.");
+                    isValid = false;
+                }
 
-        //    if (account.nickname != myProfileVM.nickname)
-        //        if (!accountRepository.IsNicknameCorrect(myProfileVM.nickname))
-        //        {
-        //            ModelState.AddModelError("nickname", "This nickname is taken or not correct. Length of nickname is 3-10 characters.");
-        //            isValid = false;
-        //        }
+            if (ModelState.IsValid && isValid)
+            {
 
-        //    if (ModelState.IsValid && isValid)
-        //    {
-        //        Account editedAccount = accountRepository.GetAccount(account.accountID);
-        //        editedAccount.personData.address = myProfileVM.address;
-        //        editedAccount.personData.city = myProfileVM.city;
-        //        editedAccount.personData.zipcode = myProfileVM.zipcode;
-        //        editedAccount.personData.country = myProfileVM.country;
+                editedUser.Address = myProfileVM.Address;
+                editedUser.City = myProfileVM.City;
+                editedUser.Zipcode = myProfileVM.Zipcode;
+                editedUser.FirstName = myProfileVM.FirstName;
+                editedUser.LastName = myProfileVM.LastName;
+                editedUser.Email = myProfileVM.Email;
 
-        //        editedAccount.email = myProfileVM.Email;
-        //        editedAccount.nickname = myProfileVM.nickname;
+                userService.EditUser(editedUser);
 
-        //        editedAccount.personData.isProfilePublic = myProfileVM.isProfilePublic;
+                Session["CurrentUser"] = editedUser;
+                TempData["message"] = "Successfully edited profile: " + editedUser.Login;
+                return RedirectToAction("MyProfile", "Account");
+            }
 
-        //        accountRepository.EditAccount(editedAccount);
+            return View(myProfileVM);
+        }
 
-        //        Session["CurrentUser"] = editedAccount;
-        //        TempData["message"] = "Successfully edited profile: " + editedAccount.nickname;
-        //        return RedirectToAction("MyProfile", "Account");
-        //    }
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordVM changePasswordVM = new ChangePasswordVM();
+            return View(changePasswordVM);
+        }
 
-        //    return View(myProfileVM);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordVM changePasswordVM)
+        {
+            User user = (User)Session["CurrentUser"];
 
-        //public ActionResult ChangePassword()
-        //{
-        //    ChangePasswordVM changePasswordVM = new ChangePasswordVM();
-        //    return View(changePasswordVM);
-        //}
+            var oldPassword = userService.HashPassword(changePasswordVM.oldPassword);
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ChangePassword(ChangePasswordVM changePasswordVM)
-        //{
-        //    Account account = (Account)Session["CurrentUser"];
+            var newPassword = userService.HashPassword(changePasswordVM.newPassword);
 
-        //    UserSecurityRepository userSecurityRepository = new UserSecurityRepository();
+            var repeatPassword = userService.HashPassword(changePasswordVM.repeatPassword);
 
-        //    UserSecurity oldPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.oldPassword);
+            bool isValid = true;
+            if (oldPassword != user.Password)
+            {
+                ModelState.AddModelError("oldPassword", "The enter password is different from the old password.");
+                isValid = false;
+            }
+            if (ModelState.IsValid && isValid)
+            {
+                
+                user.Password = newPassword;
 
-        //    UserSecurity newPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.newPassword);
-
-        //    UserSecurity repeatPassword = userSecurityRepository.CreateUserSecurity("", changePasswordVM.repeatPassword);
-
-        //    bool isValid = true;
-        //    if (oldPassword.password != account.userSecurity.password)
-        //    {
-        //        ModelState.AddModelError("oldPassword", "The enter password is different from the old password.");
-        //        isValid = false;
-        //    }
-        //    if (ModelState.IsValid && isValid)
-        //    {
-        //        Account editedAccount = accountRepository.GetAccount(account.accountID);
-        //        editedAccount.userSecurity.password = newPassword.password;
-
-        //        accountRepository.EditAccount(editedAccount);
-        //        Session["CurrentUser"] = editedAccount;
-        //        TempData["message"] = "Successfully password was changed!";
-        //        return RedirectToAction("MyProfile", "Account");
-        //    }
-        //    return View(changePasswordVM);
-        //}
+                userService.EditUser(user);
+                Session["CurrentUser"] = user;
+                TempData["message"] = "Successfully password was changed!";
+                return RedirectToAction("MyProfile", "Account");
+            }
+            return View(changePasswordVM);
+        }
     }
 }

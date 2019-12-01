@@ -12,37 +12,37 @@ namespace WebApplication.ViewModels.Home
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Display(Name = "First name")]
+        [Required(ErrorMessage = "First name required")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last name")]
+        [Required(ErrorMessage = "Last name required")]
+        public string LastName { get; set; }
 
         [Display(Name = "Login")]
-        public string login { get; set; }
+        [Required(ErrorMessage = "Login required")]
+        public string Login { get; set; }
+
+        [Display(Name = "Password")]
+        [Required(ErrorMessage = "Password required")]
+        public string Password { get; set; }
+
+        [Display(Name = "Repeat password")]
+        [Required(ErrorMessage = "Password must be repeated")]
+        [Compare("Password", ErrorMessage = "Passwords are not the same.")]
+        public string RepeatPassword { get; set; }
 
         [Display(Name = "Address")]
         [Required(ErrorMessage = "Address Required")]
-        public string address { get; set; }
+        public string Address { get; set; }
 
         [Display(Name = "City")]
         [Required(ErrorMessage = "City required")]
-        public string city { get; set; }
+        public string City { get; set; }
 
         [Display(Name = "Zipcode")]
         [Required(ErrorMessage = "Zipcode required")]
-        public string zipcode { get; set; }
-
-        [Display(Name = "State")]
-        [Required(ErrorMessage = "State required")]
-        public string state { get; set; }
-
-        [Display(Name = "Country")]
-        [Required(ErrorMessage = "Country required")]
-        public string country { get; set; }
-
-        [Display(Name = "Profile type: ")]
-        public bool isProfilePublic { get; set; } = false;
-
-        [Display(Name = "Quantity of following users")]
-        public int followers { get; set; }
-
-        [Display(Name = "Quantity of followed users")]
-        public int followed { get; set; }
+        public string Zipcode { get; set; }
     }
 }

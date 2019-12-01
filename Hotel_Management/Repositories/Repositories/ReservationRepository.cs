@@ -19,12 +19,12 @@ namespace Repositories.Repositories
             this.db = databaseContext;
         }
 
-        public Reservation AddReservation (int roomId, int arrangerId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate)
+        public Reservation AddReservation (int roomId, int arrangerId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, ReservationStatusEnum reservationStatus)
         {
             var newReservation = new Reservation
             {
                 UserId = arrangerId,
-                ReservationStatusId = ReservationStatusEnum.AwaitingConfirmation,
+                ReservationStatusId = reservationStatus,
                 AccomodationDate = requestedAccomodationDate,
                 CheckOutDate = requestedCheckOutDate,
                 RoomReservations = new List<RoomReservation> { new RoomReservation
@@ -70,6 +70,7 @@ namespace Repositories.Repositories
             }
 
         }
+
         public Reservation ChangeReservationStatus(int reservationId, ReservationStatusEnum statusToSet)
         {
             var reservation = db.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
@@ -77,7 +78,22 @@ namespace Repositories.Repositories
             reservation = this.EditReservation(reservation);
 
             return reservation;
+        }
 
+        public void UpdateReservations()
+        {
+            foreach (var reservation in db.Reservations.Where(r => r.CheckOutDate < DateTime.Now && r.ReservationStatusId == ReservationStatusEnum.Confirmed 
+                || r.AccomodationDate < DateTime.Now && r.ReservationStatusId == ReservationStatusEnum.AwaitingConfirmation))
+            {
+                if(reservation.ReservationStatusId == ReservationStatusEnum.Confirmed)
+                {
+                    reservation.ReservationStatusId = ReservationStatusEnum.Closed;
+                }
+                else if(reservation.ReservationStatusId == ReservationStatusEnum.AwaitingConfirmation){
+                    reservation.ReservationStatusId = ReservationStatusEnum.Canceled;
+                }
+                this.EditReservation(reservation);
+            }
         }
 
 

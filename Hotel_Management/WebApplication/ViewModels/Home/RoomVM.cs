@@ -14,5 +14,7 @@ namespace WebApplication.ViewModels.Home
         public int MaxNumberOfGuests { get; set; }
 
         public decimal Cost { get; set; }
+
+        public decimal RoomSize { get; set; }
     }
 }

@@ -15,7 +15,11 @@
     <br /><br />
     @Html.LabelFor(m => m.NumberOfGuests)
     <br />
-    @Html.EditorFor(m => m.NumberOfGuests, new { @class = "datepicker form-control", @placeholder = "Enter checkout date" })
+    @Html.EditorFor(m => m.NumberOfGuests, new { @class = "form-control", @placeholder = "Enter checkout date" })
+    <br />
+    @Html.LabelFor(m => m.RoomSize)
+    <br />
+    @Html.EditorFor(m => m.RoomSize, new {@class = "form-control", @placeholder = "Enter minimal room size" })
     <br /><br />
     @Html.DropDownListFor(m => m.SelectedAmenityIds,
         Model.AmenitiesToSearch.Select(ats => new SelectListItem {Text = ats.AmenityName, Value = ats.AmenityId.ToString() }),
@@ -56,6 +60,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MaxNumberOfGuests)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomSize)
+                </td>
             </tr>
         }
 
@@ -78,8 +85,6 @@
                 dateFormat: "dd/mm/yy",
                 changeMonth: true,
                 changeYear: true,
-                minDate: new Date.today().addDays(1),
-                maxDate: new Date(2021, 0, 1),
                 showOn: "both",
             });
         })

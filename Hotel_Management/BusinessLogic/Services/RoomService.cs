@@ -47,6 +47,26 @@ namespace BusinessLogic.Services
             return this.amenityRepository.GetAllAmenities();
         }
 
+        public Room GetRoom(int roomId)
+        {
+            return this.roomRepository.GetRoom(roomId);
+        }
+
+        public List<Room> GetAvailableRooms(DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, string[] requestedAmenityIds, int numberOfGuests, decimal minRoomSize)
+        {
+            var amenityIds = new List<int>();
+            foreach(var amenityId in requestedAmenityIds)
+            {
+                amenityIds.Add(int.Parse(amenityId));
+            }
+            return this.roomRepository.GetAvailableRooms(requestedAccomodationDate, requestedCheckOutDate, amenityIds, numberOfGuests, minRoomSize);    
+        }
+
+        public List<Amenity> GetAmenitiesOfRoom(int roomId)
+        {
+            return this.amenityRepository.GetAmenitiesOfRoom(roomId);
+        }
+
 
     }
 }

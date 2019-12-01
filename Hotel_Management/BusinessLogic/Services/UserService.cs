@@ -76,5 +76,10 @@ namespace BusinessLogic.Services
             return this.userRepository.GetAdminUserWithLeastUserConversations();
         }
 
+        public string HashPassword(string password)
+        {
+            return this.userRepository.HashPassword(password);
+        }
+
     }
 }

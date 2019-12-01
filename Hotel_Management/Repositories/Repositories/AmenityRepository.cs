@@ -71,6 +71,11 @@ namespace Repositories.Repositories
             }
         }
 
+        public List<Amenity> GetAmenitiesOfRoom(int roomId)
+        {
+            return this.db.Amenities.Where(a => db.RoomAmenities.Where(ra => ra.RoomId == roomId).Select(ra => ra.AmenityId).Contains(a.AmenityId)).ToList();
+        }
+
         public List<Amenity> GetAllAmenities()
         {
             return this.db.Amenities.ToList();

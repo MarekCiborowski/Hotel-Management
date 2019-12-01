@@ -128,7 +128,12 @@ namespace Repositories.Repositories
             return roomAmenities;
         }
 
-        public List<Room> GetAvailableRooms(DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, List<int> requestedAmenityIds, int numberOfGuests)
+        public Room GetRoom(int roomId)
+        {
+            return this.db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+        }
+
+        public List<Room> GetAvailableRooms(DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, List<int> requestedAmenityIds, int numberOfGuests, decimal minRoomSize)
         {
             var availableRooms = db.Rooms
                 .Where(room => !db.Reservations
@@ -137,7 +142,8 @@ namespace Repositories.Repositories
                             || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate))
                         && reservation.ReservationStatusId != ReservationStatusEnum.Canceled).Any()
                     && this.GetRoomsWithAmenities(requestedAmenityIds).Select(r => r.RoomId).Contains(room.RoomId)
-                    && room.MaxNumberOfGuests >= numberOfGuests).ToList();
+                    && room.MaxNumberOfGuests >= numberOfGuests
+                    && room.RoomSize >= minRoomSize).ToList();
 
             return availableRooms;
         }
