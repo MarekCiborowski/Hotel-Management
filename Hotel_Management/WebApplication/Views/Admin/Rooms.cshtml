@@ -1,0 +1,52 @@
+﻿@model  List<WebApplication.ViewModels.Admin.RoomListItem>
+
+@Html.ActionLink("Add room", "AddRoom", null, new {@class = "btn-search" })
+
+<table style="width:1000px">
+    <tr>
+        <th>
+            Room ID
+        </th>
+        <th>
+            Cost
+        </th>
+        <th>
+            Room Size
+        </th>
+        <th>
+            Max number of guests
+        </th>
+        <th>
+            Amenities
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+    @foreach(var room in Model)
+    {
+    <tr>
+        <td>
+            @room.RoomId
+        </td>
+        <td>
+            @room.Cost
+        </td>
+        <td>
+            @room.RoomSize
+        </td>
+        <td>
+            @room.MaxNumberOfGuests
+
+        </td>
+        <td>
+            @room.Amenities
+        </td>
+        <td>
+            @Html.ActionLink("Delete room", "DeleteRoom")
+            @Html.ActionLink("Edit room", "EditRoom")
+        </td>
+    </tr>
+    }
+</table>
+

@@ -1,0 +1,71 @@
+﻿@model WebApplication.ViewModels.Admin.RoomVM
+
+<h2>Add room</h2>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.RoomNumber)
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <td>
+                Room cost [$]
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", placeholder = "Cost" } })
+                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Max number of guests
+            </td>
+            <td>
+                @Html.EditorFor(model => model.MaxNumberOfGuests, new { htmlAttributes = new { @class = "form-control", placeholder = "Max number of guests" } })
+                @Html.ValidationMessageFor(model => model.MaxNumberOfGuests, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Room size [square meters]
+            </td>
+            <td>
+                @Html.EditorFor(model => model.RoomSize, new { htmlAttributes = new { @class = "form-control", placeholder = "Room size" } })
+                @Html.ValidationMessageFor(model => model.RoomSize, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Amenities
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.SelectedAmenityIds,
+     Model.AllAmenities.Select(ats => new SelectListItem { Text = ats.AmenityName, Value = ats.AmenityId.ToString() }),
+     new { @class = "form-control chosen-select", @multiple = true, @placeholder = "Select amenities" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <input type="submit" value="Add room" class="btn btn-search" />
+                </div>
+            </td>
+        </tr>
+
+
+    </table>
+
+}
+
+
+<script>
+    $(document).ready(function () {
+
+        $(".chosen-select").chosen({
+            'no_results_text': 'Oops, nothing found!',
+            'width': '700px',
+            'search_contains': true,
+            'placeholder_text_multiple': 'Select amenities ...',
+            'display_selected_options': false
+        });
+    });
+</script>

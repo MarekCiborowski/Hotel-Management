@@ -18,12 +18,19 @@ namespace Repositories.Repositories
         {
             this.db = databaseContext;
         }
-        public Room AddRoom(decimal cost, int maxNumberOfGuests)
+
+        public List<Room> GetAllRooms()
+        {
+            return this.db.Rooms.ToList();
+        }
+
+        public Room AddRoom(decimal cost, int maxNumberOfGuests, decimal roomSize, List<int> amenityIds)
         {
             var newRoom = new Room
             {
                 Cost = cost,
-                MaxNumberOfGuests = maxNumberOfGuests
+                MaxNumberOfGuests = maxNumberOfGuests,
+                RoomSize = roomSize,
             };
 
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -32,10 +39,18 @@ namespace Repositories.Repositories
                 {
                     newRoom = db.Rooms.Add(newRoom);
                     db.SaveChanges();
+                    var roomAmenities = amenityIds.Select(amenityId => new RoomAmenity
+                    {
+                        AmenityId = amenityId,
+                        RoomId = newRoom.RoomId
+                    }).ToList();
+
+                    db.RoomAmenities.AddRange(roomAmenities);
+                    db.SaveChanges();
                     dbContextTransaction.Commit();
                     return newRoom;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     dbContextTransaction.Rollback();
                     return null;
@@ -135,15 +150,18 @@ namespace Repositories.Repositories
 
         public List<Room> GetAvailableRooms(DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, List<int> requestedAmenityIds, int numberOfGuests, decimal minRoomSize)
         {
+
+            var roomsWithAmenities = this.GetRoomsWithAmenities(requestedAmenityIds);
+
             var availableRooms = db.Rooms
                 .Where(room => !db.Reservations
                     .Where(reservation => room.RoomReservations.Select(rr => rr.ReservationId).Contains(reservation.ReservationId)
                         && ((reservation.CheckOutDate > requestedAccomodationDate && reservation.AccomodationDate <= requestedAccomodationDate)
                             || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate))
                         && reservation.ReservationStatusId != ReservationStatusEnum.Canceled).Any()
-                    && this.GetRoomsWithAmenities(requestedAmenityIds).Select(r => r.RoomId).Contains(room.RoomId)
                     && room.MaxNumberOfGuests >= numberOfGuests
                     && room.RoomSize >= minRoomSize).ToList();
+            availableRooms = availableRooms.Where(ar => roomsWithAmenities.Select(r => r.RoomId).Contains(ar.RoomId)).ToList();
 
             return availableRooms;
         }

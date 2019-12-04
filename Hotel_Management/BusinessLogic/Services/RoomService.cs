@@ -20,6 +20,21 @@ namespace BusinessLogic.Services
             this.roomRepository = new RoomRepository(context);
         }
 
+        public Room AddRoom(decimal cost, int maxNumberOfGuests, decimal roomSize, List<int> amenityIds)
+        {
+            return this.roomRepository.AddRoom(cost, maxNumberOfGuests, roomSize, amenityIds);
+        }
+
+        public Amenity GetAmenityById(int amenityId)
+        {
+            return this.amenityRepository.GetAmenityById(amenityId);
+        }
+
+        public List<Room> GetAllRooms()
+        {
+            return this.roomRepository.GetAllRooms();
+        }
+
         public Amenity AddAmenity(string amenityName)
         {
             var newAmenity = this.amenityRepository.AddAmenity(amenityName);
@@ -30,6 +45,18 @@ namespace BusinessLogic.Services
         public bool IsAmenityAlreadySaved(string amenityName)
         {
             return this.amenityRepository.IsAmenityAlreadySaved(amenityName);
+        }
+
+        public string GetRoomAmenitiesString(int roomId)
+        {
+            var roomAmenities = this.GetAmenitiesOfRoom(roomId);
+            var amenitiesString = new StringBuilder();
+            foreach(var roomAmenity in roomAmenities)
+            {
+                amenitiesString.Append(roomAmenity.AmenityName + ", ");
+            }
+
+            return amenitiesString.ToString();
         }
 
         public void RemoveAmenity(int? id)
@@ -55,10 +82,14 @@ namespace BusinessLogic.Services
         public List<Room> GetAvailableRooms(DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, string[] requestedAmenityIds, int numberOfGuests, decimal minRoomSize)
         {
             var amenityIds = new List<int>();
-            foreach(var amenityId in requestedAmenityIds)
+            if(requestedAmenityIds != null)
             {
-                amenityIds.Add(int.Parse(amenityId));
+                foreach (var amenityId in requestedAmenityIds)
+                {
+                    amenityIds.Add(int.Parse(amenityId));
+                }
             }
+            
             return this.roomRepository.GetAvailableRooms(requestedAccomodationDate, requestedCheckOutDate, amenityIds, numberOfGuests, minRoomSize);    
         }
 

@@ -140,13 +140,15 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Admin\AccountListVM.cs" />
-    <Compile Include="ViewModels\Admin\AddAmenityVM.cs" />
-    <Compile Include="ViewModels\Admin\AddRoomVM.cs" />
+    <Compile Include="ViewModels\Admin\AmenitiesVM.cs" />
+    <Compile Include="ViewModels\Admin\RoomListItem.cs" />
+    <Compile Include="ViewModels\Admin\RoomVM.cs" />
+    <Compile Include="ViewModels\Admin\AmenityVM.cs" />
     <Compile Include="ViewModels\Admin\EditRoomVM.cs" />
     <Compile Include="ViewModels\Admin\NewAdminVM.cs" />
     <Compile Include="ViewModels\Home\ChangePasswordVM.cs" />
     <Compile Include="ViewModels\Home\MakeReservationVM.cs" />
-    <Compile Include="ViewModels\Home\MyProfileVM.cs" />
+    <Compile Include="ViewModels\Home\ProfileVM.cs" />
     <Compile Include="ViewModels\Admin\ProfileVM.cs" />
     <Compile Include="ViewModels\Authentication\LoginVM.cs" />
     <Compile Include="ViewModels\Authentication\NewUserVM.cs" />
@@ -238,6 +240,9 @@
     <Content Include="Views\Home\EditProfile.cshtml" />
     <Content Include="Views\Home\MyProfile.cshtml" />
     <Content Include="Views\Admin\NewAdmin.cshtml" />
+    <Content Include="Views\Admin\Amenities.cshtml" />
+    <Content Include="Views\Admin\Rooms.cshtml" />
+    <Content Include="Views\Admin\AddRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

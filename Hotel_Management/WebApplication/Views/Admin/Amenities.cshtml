@@ -1,0 +1,26 @@
+﻿@model WebApplication.ViewModels.Admin.AmenitiesVM
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "Error occured while creating new amenity", new { @class = "text-danger" })
+
+    @Html.EditorFor(m => m.NewAmenity)
+    <br/><br/>
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Create amenity" class="btn btn-search" />
+        </div>
+    </div>
+
+    <ul>
+        @foreach (var amenity in Model.AvailableAmenities)
+        {
+            <li>
+                @amenity.AmenityName
+                @Html.ActionLink("Delete", "DeleteAmenity", "Admin", new { amenityToDeleteId = amenity.AmenityId }, null);
+            </li>
+        }
+    </ul>
+}

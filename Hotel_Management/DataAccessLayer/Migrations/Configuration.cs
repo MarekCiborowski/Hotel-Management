@@ -42,7 +42,7 @@ namespace DataAccessLayer.Migrations
                 .Select(x => new HotelBookingSite() { HotelBookingSiteId = x, Name = x.ToString() })
                 .ToArray());
 
-            context.Users.Add(new User
+            context.Users.AddOrUpdate(new User
             {
                 Address = "Mickiewicza 1",
                 City = "Warszawa",

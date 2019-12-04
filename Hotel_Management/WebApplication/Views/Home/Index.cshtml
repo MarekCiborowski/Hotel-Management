@@ -28,7 +28,6 @@
     <input type="submit" value="Search" />
     <table class="table">
         <tr>
-
             <th>
                 Room Number
             </th>
@@ -40,6 +39,12 @@
             </th>
             <th>
                 Max. Guests
+            </th>
+            <th>
+                Room size
+            </th>
+            <th>
+                Actions
             </th>
         </tr>
 
@@ -62,6 +67,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RoomSize)
+                </td>
+                <td>
+                    @Html.ActionLink("Make reservation", "MakeReservation");
                 </td>
             </tr>
         }

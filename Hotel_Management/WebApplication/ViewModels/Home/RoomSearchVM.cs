@@ -22,6 +22,7 @@ namespace WebApplication.ViewModels.Home
         public int NumberOfGuests { get; set; }
 
         [Display(Name = "Room size [square meters]")]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal RoomSize { get; set; }
 
         public string[] SelectedAmenityIds { get; set; }

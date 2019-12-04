@@ -69,7 +69,13 @@ namespace WebApplication.Controllers
                 });
             }
 
+            roomSearchVM.AmenitiesToSearch = roomService.GetAllAmenities().Select(a => new AmenitySearchVM
+            {
+                AmenityId = a.AmenityId,
+                AmenityName = a.AmenityName
+            }).ToList();
             roomSearchVM.FoundRooms = foundRoomsVM;
+
             return View(roomSearchVM);
         }
 
@@ -163,10 +169,11 @@ namespace WebApplication.Controllers
             return View(newConversationDto);
         }
 
+        [GeneralAuthorizationFilter]
         public ActionResult MyProfile()
         {
             User user = (User)Session["CurrentUser"];
-            MyProfileVM myProfileVM = new MyProfileVM
+            ProfileVM myProfileVM = new ProfileVM
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -178,10 +185,11 @@ namespace WebApplication.Controllers
             return View(myProfileVM);
         }
 
+        [GeneralAuthorizationFilter]
         public ActionResult EditProfile()
         {
             User user = (User)Session["CurrentUser"];
-            MyProfileVM myProfileVM = new MyProfileVM
+            ProfileVM myProfileVM = new ProfileVM
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -194,8 +202,9 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
+        [GeneralAuthorizationFilter]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile(MyProfileVM myProfileVM)
+        public ActionResult EditProfile(ProfileVM myProfileVM)
         {
             User editedUser = (User)Session["CurrentUser"];
             bool isValid = true;
@@ -226,6 +235,7 @@ namespace WebApplication.Controllers
             return View(myProfileVM);
         }
 
+        [GeneralAuthorizationFilter]
         public ActionResult ChangePassword()
         {
             ChangePasswordVM changePasswordVM = new ChangePasswordVM();
@@ -233,6 +243,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
+        [GeneralAuthorizationFilter]
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePasswordVM changePasswordVM)
         {

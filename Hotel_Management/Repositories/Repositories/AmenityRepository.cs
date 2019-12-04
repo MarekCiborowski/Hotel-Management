@@ -17,6 +17,11 @@ namespace Repositories.Repositories
             this.db = databaseContext;
         }
 
+        public Amenity GetAmenityById(int amenityId)
+        {
+            return this.db.Amenities.FirstOrDefault(a => a.AmenityId == amenityId);
+        }
+
         public Amenity AddAmenity (string amenityName)
         {
             var newAmenity = new Amenity

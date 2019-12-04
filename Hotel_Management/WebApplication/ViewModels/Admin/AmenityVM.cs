@@ -5,7 +5,10 @@ using System.Web;
 
 namespace WebApplication.ViewModels.Admin
 {
-    public class AddRoomVM
+    public class AmenityVM
     {
+        public int AmenityId { get; set; }
+
+        public string AmenityName { get; set; }
     }
 }

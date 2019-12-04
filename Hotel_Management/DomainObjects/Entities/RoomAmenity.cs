@@ -17,14 +17,12 @@ namespace DomainObjects.Entities
 
         [ForeignKey("Room")]
         public int RoomId { get; set; }
-
-        [Required]
+        
         public virtual Room Room { get; set; }
 
         [ForeignKey("Amenity")]
         public int AmenityId { get; set; }
-
-        [Required]
+        
         public virtual Amenity Amenity { get; set; }
     }
 }

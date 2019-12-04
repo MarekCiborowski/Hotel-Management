@@ -1,4 +1,4 @@
-﻿@model WebApplication.ViewModels.Home.MyProfileVM
+﻿@model WebApplication.ViewModels.Home.ProfileVM
 @{
     ViewBag.Title = "MyProfile";
 }
@@ -8,73 +8,29 @@
 <table style=" float:left">
     <tr>
         <td>
-            @Html.DisplayNameFor(m => m.login): @Html.DisplayFor(m => m.login)
+            @Html.DisplayNameFor(m => m.FirstName): @Html.DisplayFor(m => m.FirstName)
         </td>
     </tr>
     <tr>
         <td>
-            @Html.DisplayNameFor(m => m.nickname): @Html.DisplayFor(m => m.nickname)
+            @Html.DisplayNameFor(m => m.Email): @Html.DisplayFor(m => m.Email)
         </td>
     </tr>
     <tr>
         <td>
-            @Html.DisplayNameFor(m => m.email): @Html.DisplayFor(m => m.email)
+            @Html.DisplayNameFor(m => m.City): @Html.DisplayFor(m => m.City)
         </td>
     </tr>
     <tr>
         <td>
-            @Html.DisplayNameFor(m => m.followers): @Html.DisplayFor(m => m.followers)
+            @Html.DisplayNameFor(m => m.Zipcode): @Html.DisplayFor(m => m.Zipcode)
         </td>
     </tr>
     <tr>
         <td>
-            @Html.DisplayNameFor(m => m.followed): @Html.DisplayFor(m => m.followed)
+            @Html.DisplayNameFor(m => m.Address): @Html.DisplayFor(m => m.Address)
         </td>
     </tr>
-</table>
-
-<table style=" float:left">
-    <tr>
-        <td>
-            @Html.DisplayNameFor(m => m.address): @Html.DisplayFor(m => m.address)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(m => m.zipcode): @Html.DisplayFor(m => m.zipcode)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(m => m.city): @Html.DisplayFor(m => m.city)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(m => m.state): @Html.DisplayFor(m => m.state)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayNameFor(m => m.country): @Html.DisplayFor(m => m.country)
-        </td>
-    </tr>
-    @if (Model.isProfilePublic == false)
-    {
-        <tr>
-            <td>
-                @Html.DisplayNameFor(m => m.isProfilePublic) Private
-            </td>
-        </tr>
-    }
-    else
-    {
-        <tr>
-            <td>
-                @Html.DisplayNameFor(m => m.isProfilePublic) Public
-            </td>
-        </tr>
-    }
 </table>
 
 <table>
@@ -82,7 +38,7 @@
         <td>
             <div>
                 <center>
-                    <button value="Edit" name="button" type="submit" class="btn btn-search" onclick='window.location = "@Url.Action("EditProfile", "Account")"'>Edit profile</button>
+                    <button value="Edit" name="button" type="submit" class="btn btn-search" onclick='window.location = "@Url.Action("EditProfile", "Home")"'>Edit profile</button>
                 </center>
             </div>
         </td>
@@ -90,7 +46,7 @@
         <td>
             <div>
                 <center>
-                    <button value="ChangePassword" name="button" type="submit" class="btn btn-search" onclick='window.location = "@Url.Action("ChangePassword", "Account")"'>Change password</button>
+                    <button value="ChangePassword" name="button" type="submit" class="btn btn-search" onclick='window.location = "@Url.Action("ChangePassword", "Home")"'>Change password</button>
                 </center>
             </div>
         </td>
@@ -98,7 +54,7 @@
         <td>
             <div>
                 <center>
-                    <button value="Delete" name="button" type="submit" class="btn btn-danger" onclick='window.location = "@Url.Action("DeleteAccount", "Account")"'>Delete account</button>
+                    <button value="Delete" name="button" type="submit" class="btn btn-danger" onclick='window.location = "@Url.Action("DeleteAccount", "Home")"'>Delete account</button>
                 </center>
             </div>
         </td>

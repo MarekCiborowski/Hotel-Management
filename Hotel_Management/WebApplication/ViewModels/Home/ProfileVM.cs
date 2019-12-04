@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebApplication.ViewModels.Home
 {
-    public class MyProfileVM
+    public class ProfileVM
     {
         [Required(ErrorMessage = "Email required")]
         [Display(Name = "Email")]
@@ -19,19 +19,6 @@ namespace WebApplication.ViewModels.Home
         [Display(Name = "Last name")]
         [Required(ErrorMessage = "Last name required")]
         public string LastName { get; set; }
-
-        [Display(Name = "Login")]
-        [Required(ErrorMessage = "Login required")]
-        public string Login { get; set; }
-
-        [Display(Name = "Password")]
-        [Required(ErrorMessage = "Password required")]
-        public string Password { get; set; }
-
-        [Display(Name = "Repeat password")]
-        [Required(ErrorMessage = "Password must be repeated")]
-        [Compare("Password", ErrorMessage = "Passwords are not the same.")]
-        public string RepeatPassword { get; set; }
 
         [Display(Name = "Address")]
         [Required(ErrorMessage = "Address Required")]
