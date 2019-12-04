@@ -165,5 +165,12 @@ namespace Repositories.Repositories
 
             return availableRooms;
         }
+
+        public void RemoveRoom(int roomId)
+        {
+            var roomToDelete = this.db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+            this.db.Rooms.Remove(roomToDelete);
+            db.SaveChanges();
+        }
     }
 }

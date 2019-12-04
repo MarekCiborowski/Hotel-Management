@@ -55,12 +55,56 @@ namespace WebApplication.Controllers
 
         public ActionResult EditRoom(int roomId)
         {
-            return View();
+            var roomToEdit = this.roomService.GetRoom(roomId);
+            var amenities = this.roomService.GetAmenitiesOfRoom(roomId);
+            var editRoomVM = new RoomVM
+            {
+                Cost = roomToEdit.Cost,
+                MaxNumberOfGuests = roomToEdit.MaxNumberOfGuests,
+                RoomNumber = roomToEdit.RoomId,
+                RoomSize = roomToEdit.RoomSize,
+                SelectedAmenityIds = amenities.Select(a => a.AmenityId.ToString()).ToArray(),
+                AllAmenities = roomService.GetAllAmenities().Select(a => new AmenityVM
+                {
+                    AmenityId = a.AmenityId,
+                    AmenityName = a.AmenityName
+                }).ToList(),
+            };
+
+            return View(editRoomVM);
         }
 
-        public ActionResult EditRoom(RoomVM roomVM)
+        [HttpPost]
+        public ActionResult EditRoom(RoomVM editRoomVM)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var amenityIds = new List<int>();
+                foreach (var amenityId in editRoomVM.SelectedAmenityIds)
+                {
+                    amenityIds.Add(int.Parse(amenityId));
+                }
+
+                this.roomService.EditRoom(editRoomVM.RoomNumber, editRoomVM.Cost, editRoomVM.MaxNumberOfGuests, editRoomVM.RoomSize, amenityIds);
+                TempData["message"] = "Room edited";
+                return RedirectToAction("Rooms");
+            }
+
+            editRoomVM.AllAmenities = roomService.GetAllAmenities().Select(a => new AmenityVM
+            {
+                AmenityId = a.AmenityId,
+                AmenityName = a.AmenityName
+            }).ToList();
+
+            return View(editRoomVM);
+        }
+
+        public ActionResult DeleteRoom(int roomId)
+        {
+            TempData["message"] = "Removed room : " + roomId;
+            this.roomService.RemoveRoom(roomId);
+
+            return RedirectToAction("Rooms");
         }
 
         public ActionResult AddRoom()

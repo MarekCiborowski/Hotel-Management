@@ -1,6 +1,6 @@
 ﻿@model WebApplication.ViewModels.Admin.RoomVM
 
-<h2>Add room</h2>
+<h2>Edit room</h2>
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(m => m.RoomNumber)
@@ -46,7 +46,7 @@
         <tr>
             <td>
                 <div>
-                    <input type="submit" value="Add room" class="btn btn-search" />
+                    <input type="submit" value="Edit room" class="btn btn-search" />
                 </div>
             </td>
         </tr>
@@ -60,6 +60,7 @@
 <script>
     $(document).ready(function () {
 
+        $(".chosen").trigger("chosen:updated");
         $(".chosen-select").chosen({
             'no_results_text': 'Oops, nothing found!',
             'width': '700px',
@@ -68,6 +69,7 @@
             'display_selected_options': false
         });
 
-        $(".chosen-select").trigger("chosen:updated");
+       
     });
 </script>
+

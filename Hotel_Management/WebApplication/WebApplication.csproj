@@ -243,6 +243,7 @@
     <Content Include="Views\Admin\Amenities.cshtml" />
     <Content Include="Views\Admin\Rooms.cshtml" />
     <Content Include="Views\Admin\AddRoom.cshtml" />
+    <Content Include="Views\Admin\EditRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

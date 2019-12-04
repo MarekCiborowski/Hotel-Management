@@ -229,7 +229,7 @@ namespace WebApplication.Controllers
 
                 Session["CurrentUser"] = editedUser;
                 TempData["message"] = "Successfully edited profile: " + editedUser.Login;
-                return RedirectToAction("MyProfile", "Account");
+                return RedirectToAction("MyProfile");
             }
 
             return View(myProfileVM);
@@ -269,7 +269,7 @@ namespace WebApplication.Controllers
                 userService.EditUser(user);
                 Session["CurrentUser"] = user;
                 TempData["message"] = "Successfully password was changed!";
-                return RedirectToAction("MyProfile", "Account");
+                return RedirectToAction("MyProfile");
             }
             return View(changePasswordVM);
         }

@@ -20,6 +20,11 @@ namespace BusinessLogic.Services
             this.roomRepository = new RoomRepository(context);
         }
 
+        public void RemoveRoom(int roomId)
+        {
+            this.roomRepository.RemoveRoom(roomId);
+        }
+
         public Room AddRoom(decimal cost, int maxNumberOfGuests, decimal roomSize, List<int> amenityIds)
         {
             return this.roomRepository.AddRoom(cost, maxNumberOfGuests, roomSize, amenityIds);
@@ -96,6 +101,21 @@ namespace BusinessLogic.Services
         public List<Amenity> GetAmenitiesOfRoom(int roomId)
         {
             return this.amenityRepository.GetAmenitiesOfRoom(roomId);
+        }
+
+        public Room EditRoom (int roomId, decimal cost, int maxNumberOfGuests, decimal roomSize, List<int> amenityIds)
+        {
+            var editedRoom = this.roomRepository.GetRoom(roomId);
+            editedRoom.Cost = cost;
+            editedRoom.MaxNumberOfGuests = maxNumberOfGuests;
+            editedRoom.RoomSize = roomSize;
+            editedRoom.RoomAmenities = amenityIds.Select(a => new RoomAmenity
+            {
+                AmenityId = a,
+                RoomId = roomId
+            }).ToList();
+
+            return this.roomRepository.EditRoom(editedRoom);
         }
 
 
