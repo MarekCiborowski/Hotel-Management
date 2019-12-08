@@ -52,6 +52,11 @@ namespace BusinessLogic.Services
             return this.reservationRepository.GetUserReservationsDto(userId);
         }
 
+        public List<ReservationCalendarListItemDto> GetReservationsCalendarDto(int roomId)
+        {
+            return this.reservationRepository.GetReservationsCalendarDto(roomId);
+        }
+
 
     }
 }

@@ -1,0 +1,71 @@
+﻿@model WebApplication.ViewModels.Admin.RoomReservationsVM
+
+@Html.HiddenFor(m => m.RoomId)
+
+<div id="calendar"></div>
+
+<script>
+    $(document).ready(function ()  
+    {  
+        var roomId = $("#RoomId").val();
+        console.log(roomId);
+        $('#calendar').fullCalendar({  
+            header:  
+            {
+                left: 'prev,next today',  
+                center: 'title',  
+                right: ''
+            },  
+            buttonText: {  
+                today: 'today',  
+                month: 'month',  
+                week: 'week',  
+                day: 'day'  
+            },  
+  
+            events: function (start, end, timezone, callback)  
+            {  
+                $.ajax({
+                    url: '/Admin/GetCalendarData',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { roomId: roomId },
+  
+                    success: function (result)  
+                    {  
+                        var events = [];  
+  
+                        $.each(result, function (i, data)  
+                        {
+                            console.log(data);
+                            console.log(moment(data.StartDate))
+                            events.push(  
+                           {  
+
+                               title: data.Title,  
+                               description: data.Desc,  
+                               start: moment(data.StartDate).format('DD-MM-YYYY'),  
+                               end: moment(data.EndDate).format('DD-MM-YYYY'),  
+                               backgroundColor: "#9501fc",  
+                               borderColor: "#fc0101"  
+                           });  
+                        });  
+
+                        console.log(events);
+                        callback(events);  
+                    }  
+                });  
+            },  
+  
+            eventRender: function (event, element)  
+            {  
+                element.qtip(  
+                {  
+                    content: event.description  
+                });  
+            },  
+  
+            editable: false  
+        });  
+}); 
+</script>

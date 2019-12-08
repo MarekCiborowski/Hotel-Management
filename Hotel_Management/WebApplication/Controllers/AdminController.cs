@@ -54,6 +54,37 @@ namespace WebApplication.Controllers
             return RedirectToAction("Reservations");
         }
 
+        public ActionResult RoomReservation(int roomId)
+        {
+            var roomReservationsVM = new RoomReservationsVM
+            {
+                RoomId = roomId
+            };
+
+            return View(roomReservationsVM);
+        }
+
+        public JsonResult GetCalendarData(int roomId)
+        {
+            // Initialization.  
+            JsonResult result = new JsonResult();
+
+            try
+            {
+                var data = this.reservationService.GetReservationsCalendarDto(roomId);
+
+                result = this.Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+
+            // Return info.  
+            return result;
+        }
+
         public ActionResult CloseReservation(int reservationId)
         {
             this.reservationService.ChangeReservationStatus(reservationId, ReservationStatusEnum.Closed);

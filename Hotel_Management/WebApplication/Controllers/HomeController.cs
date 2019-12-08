@@ -62,6 +62,12 @@ namespace WebApplication.Controllers
                 isValid = false;
             }
 
+            if (roomSearchVM.AccomodationDate == roomSearchVM.CheckOutDate)
+            {
+                ModelState.AddModelError("CheckOutDate", "Dates cannot be the same");
+                isValid = false;
+            }
+
             if (isValid)
             {
                 this.reservationService.UpdateReservations();

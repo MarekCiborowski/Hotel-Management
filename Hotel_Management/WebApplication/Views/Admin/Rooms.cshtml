@@ -2,6 +2,8 @@
 
 @Html.ActionLink("Add room", "AddRoom", null, new {@class = "btn-search" })
 
+
+
 <table style="width:1000px">
     <tr>
         <th>
@@ -45,7 +47,7 @@
         <td>
             @Html.ActionLink("Delete room", "DeleteRoom", new {roomId = room.RoomId }) | 
             @Html.ActionLink("Edit room", "EditRoom", new { roomId = room.RoomId }) |
-            @Html.ActionLink("Reservations", "RoomReservations", new { roomId = room.RoomId })
+            @Html.ActionLink("Reservations", "RoomReservation", new { roomId = room.RoomId })
         </td>
     </tr>
     }

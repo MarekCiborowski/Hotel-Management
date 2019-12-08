@@ -155,14 +155,21 @@ namespace Repositories.Repositories
 
             var availableRooms = db.Rooms
                 .Where(room => !db.Reservations
-                    .Where(reservation => room.RoomReservations.Select(rr => rr.ReservationId).Contains(reservation.ReservationId)
+                        .Where(reservation => room.RoomReservations.Select(rr => rr.ReservationId).Contains(reservation.ReservationId)
                         && ((reservation.CheckOutDate > requestedAccomodationDate && reservation.AccomodationDate <= requestedAccomodationDate)
-                            || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate))
+                            || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate)
+                            || (reservation.AccomodationDate >= requestedAccomodationDate && reservation.CheckOutDate <= requestedCheckOutDate))
                         && reservation.ReservationStatusId != ReservationStatusEnum.Canceled).Any()
                     && room.MaxNumberOfGuests >= numberOfGuests
                     && room.RoomSize >= minRoomSize).ToList();
             availableRooms = availableRooms.Where(ar => roomsWithAmenities.Select(r => r.RoomId).Contains(ar.RoomId)).ToList();
 
+            //var rom = db.Rooms
+            //    .Where(rrr => !db.Reservations
+            //            .Where(reservation => rrr.RoomReservations.Select(rr => rr.ReservationId).Contains(reservation.ReservationId) && ((reservation.CheckOutDate > requestedAccomodationDate && reservation.AccomodationDate <= requestedAccomodationDate)
+            //                || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate)
+            //                || (reservation.AccomodationDate >= requestedAccomodationDate && reservation.CheckOutDate <= requestedCheckOutDate))
+            //            && reservation.ReservationStatusId != ReservationStatusEnum.Canceled).Any()).ToList();
             return availableRooms;
         }
 

@@ -141,6 +141,19 @@ namespace Repositories.Repositories
             return reservations;
         }
 
+        public List<ReservationCalendarListItemDto> GetReservationsCalendarDto(int roomId)
+        {
+            return db.Reservations.Where(r => db.RoomReservations.Where(rr => rr.RoomId == roomId).Select(rr => rr.ReservationId).Contains(r.ReservationId))
+                .Select(r => new ReservationCalendarListItemDto
+                {
+                    Sr = r.ReservationId,
+                    Title = r.User.FirstName + " " + r.User.LastName,
+                    StartDate = r.AccomodationDate.ToString(),
+                    EndDate = r.CheckOutDate.ToString(),
+                    Desc = "Status: " + r.ReservationStatusId.ToString() + "; Hotel booking site: " + r.HotelBookingSiteId.ToString()
+                }).ToList();
+        }
+
 
     }
 }
