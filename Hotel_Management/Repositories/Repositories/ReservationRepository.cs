@@ -148,10 +148,20 @@ namespace Repositories.Repositories
                 {
                     Sr = r.ReservationId,
                     Title = r.User.FirstName + " " + r.User.LastName,
-                    StartDate = r.AccomodationDate.ToString(),
-                    EndDate = r.CheckOutDate.ToString(),
+                    StartDate = r.AccomodationDate,
+                    EndDate = r.CheckOutDate,
                     Desc = "Status: " + r.ReservationStatusId.ToString() + "; Hotel booking site: " + r.HotelBookingSiteId.ToString()
                 }).ToList();
+        }
+
+        public bool CanMakeReservation(int roomId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate)
+        {
+            return !this.db.Reservations
+                        .Where(reservation => db.RoomReservations.Where(rr => rr.RoomId == roomId).Select(rr => rr.ReservationId).Contains(reservation.ReservationId) 
+                        && ((reservation.CheckOutDate > requestedAccomodationDate && reservation.AccomodationDate <= requestedAccomodationDate)
+                            || (reservation.CheckOutDate >= requestedCheckOutDate && reservation.AccomodationDate < requestedCheckOutDate)
+                            || (reservation.AccomodationDate >= requestedAccomodationDate && reservation.CheckOutDate <= requestedCheckOutDate))
+                        && reservation.ReservationStatusId != ReservationStatusEnum.Canceled).Any();
         }
 
 

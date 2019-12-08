@@ -10,10 +10,12 @@ namespace WebApplication.ViewModels.Home
     {
         [Display(Name ="Accomodation date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime AccomodationDate { get; set; }
 
         [Display(Name = "Check out date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CheckOutDate { get; set; }
 
         public List<AmenitySearchVM> AmenitiesToSearch { get; set; }

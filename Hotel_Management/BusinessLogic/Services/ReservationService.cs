@@ -57,6 +57,11 @@ namespace BusinessLogic.Services
             return this.reservationRepository.GetReservationsCalendarDto(roomId);
         }
 
+        public bool CanMakeReservation(int roomId, DateTime accomodationDate, DateTime checkOutDate)
+        {
+            return this.reservationRepository.CanMakeReservation(roomId, accomodationDate, checkOutDate);
+        }
+
 
     }
 }

@@ -40,6 +40,8 @@ namespace WebApplication.Controllers
                     AmenityId = a.AmenityId,
                     AmenityName = a.AmenityName
                 }).ToList(),
+                AccomodationDate = DateTime.Today,
+                CheckOutDate = DateTime.Today.AddDays(1)
             };
             
             return View(roomSearchVM);

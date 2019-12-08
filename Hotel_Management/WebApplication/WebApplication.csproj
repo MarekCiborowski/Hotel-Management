@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Admin\AmenitiesVM.cs" />
+    <Compile Include="ViewModels\Admin\MakeReservationAdminVM.cs" />
     <Compile Include="ViewModels\Admin\RoomListItem.cs" />
     <Compile Include="ViewModels\Admin\RoomReservationsVM.cs" />
     <Compile Include="ViewModels\Admin\RoomVM.cs" />
@@ -258,6 +259,7 @@
     <Content Include="Views\Admin\Reservations.cshtml" />
     <Content Include="Views\Home\Reservations.cshtml" />
     <Content Include="Views\Admin\RoomReservation.cshtml" />
+    <Content Include="Views\Admin\MakeReservationAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

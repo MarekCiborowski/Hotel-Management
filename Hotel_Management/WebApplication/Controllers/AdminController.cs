@@ -56,6 +56,7 @@ namespace WebApplication.Controllers
 
         public ActionResult RoomReservation(int roomId)
         {
+            this.reservationService.UpdateReservations();
             var roomReservationsVM = new RoomReservationsVM
             {
                 RoomId = roomId
@@ -72,6 +73,11 @@ namespace WebApplication.Controllers
             try
             {
                 var data = this.reservationService.GetReservationsCalendarDto(roomId);
+                foreach(var model in data)
+                {
+                    model.StartDate = model.StartDate.AddDays(1);
+                    model.EndDate = model.EndDate.AddDays(1);
+                }
 
                 result = this.Json(data, JsonRequestBehavior.AllowGet);
             }
@@ -81,8 +87,62 @@ namespace WebApplication.Controllers
                 Console.Write(ex);
             }
 
-            // Return info.  
             return result;
+        }
+
+        public ActionResult MakeReservationAdmin(int roomId, DateTime accomodationDate)
+        {
+            var makeReservationAdminVM = new MakeReservationAdminVM
+            {
+                RoomId = roomId,
+                AccomodationDate = accomodationDate,
+                CheckOutDate = accomodationDate.AddDays(1),
+                HotelBookingSite = HotelBookingSiteEnum.None
+            };
+
+            return View(makeReservationAdminVM);
+        }
+
+        [HttpPost]
+        public ActionResult MakeReservationAdmin(MakeReservationAdminVM makeReservationAdminVM)
+        {
+            var isValid = true;
+
+            if (makeReservationAdminVM.AccomodationDate < DateTime.Today)
+            {
+                ModelState.AddModelError("AccomodationDate", "Accomodation date cannot be set before today");
+                isValid = false;
+            }
+
+            if (makeReservationAdminVM.AccomodationDate > makeReservationAdminVM.CheckOutDate)
+            {
+                ModelState.AddModelError("CheckOutDate", "Check out date cannot be set before accomodation");
+                isValid = false;
+            }
+
+            if (makeReservationAdminVM.AccomodationDate == makeReservationAdminVM.CheckOutDate)
+            {
+                ModelState.AddModelError("CheckOutDate", "Dates cannot be the same");
+                isValid = false;
+            }
+
+            if(!reservationService.CanMakeReservation(makeReservationAdminVM.RoomId,makeReservationAdminVM.AccomodationDate, makeReservationAdminVM.CheckOutDate))
+            {
+                ModelState.AddModelError("AccomodationDate", "Another reservation is coliding with given dates");
+                isValid = false;
+            }
+
+            if(ModelState.IsValid && isValid)
+            {
+                var user = (User)Session["CurrentUser"];
+
+                this.reservationService.AddReservation(makeReservationAdminVM.RoomId, user.Identity, makeReservationAdminVM.AccomodationDate, makeReservationAdminVM.CheckOutDate, ReservationStatusEnum.Confirmed, makeReservationAdminVM.HotelBookingSite);
+                TempData["message"] = "Successfully sent reservation";
+
+                return RedirectToAction("RoomReservation", new { roomId = makeReservationAdminVM.RoomId });
+            }
+
+            return View(makeReservationAdminVM);
         }
 
         public ActionResult CloseReservation(int reservationId)

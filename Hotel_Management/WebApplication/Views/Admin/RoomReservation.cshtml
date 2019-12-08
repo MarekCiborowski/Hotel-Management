@@ -1,14 +1,14 @@
 ﻿@model WebApplication.ViewModels.Admin.RoomReservationsVM
 
 @Html.HiddenFor(m => m.RoomId)
-
+<h2>Calendar for room @Model.RoomId</h2>
 <div id="calendar"></div>
 
 <script>
     $(document).ready(function ()  
     {  
         var roomId = $("#RoomId").val();
-        console.log(roomId);
+   
         $('#calendar').fullCalendar({  
             header:  
             {
@@ -21,7 +21,11 @@
                 month: 'month',  
                 week: 'week',  
                 day: 'day'  
-            },  
+            },
+
+            dayClick: function (date, jsEvent, view, resourceObj) {
+                location.href = '@Url.Action("MakeReservationAdmin","Admin", new {roomId = "calendarRoomId", accomodationDate = "calendarAccomodationDate" })'.replace("calendarRoomId", roomId).replace("calendarAccomodationDate", date.format()).replace("&amp;", "&");
+            },
   
             events: function (start, end, timezone, callback)  
             {  
@@ -43,16 +47,17 @@
                            {  
 
                                title: data.Title,  
-                               description: data.Desc,  
-                               start: moment(data.StartDate).format('DD-MM-YYYY'),  
-                               end: moment(data.EndDate).format('DD-MM-YYYY'),  
+                                    description: data.Desc,
+                                    start: data.StartDate,  
+                               end: data.EndDate,  
                                backgroundColor: "#9501fc",  
                                borderColor: "#fc0101"  
                            });  
                         });  
-
+                        debugger;
                         console.log(events);
-                        callback(events);  
+                        callback(events);
+                        $('.fc-time').hide();
                     }  
                 });  
             },  
