@@ -38,10 +38,19 @@ namespace WebApplication.Controllers
                 User user;
                 if ((user = this.userService.GetUser(vm.Username, vm.Password)) != null)
                 {
+                    if (!user.IsConfirmed)
+                    {
+                        TempData["message"] = "User has not been confirmed yet";
+                        return View(vm);
+                    }
                     Session["CurrentUser"] = user;
                     
                     TempData["message"] = "Successfully logged as " + user.Login;
-                    return RedirectToAction("Index", "Home");
+                    if(user.RoleId == DomainObjects.Enums.RolesEnum.RegularUser)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    return RedirectToAction("Reservations", "Admin");
                 }
 
             }

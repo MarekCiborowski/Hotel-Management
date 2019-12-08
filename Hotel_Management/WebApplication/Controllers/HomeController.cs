@@ -64,6 +64,7 @@ namespace WebApplication.Controllers
 
             if (isValid)
             {
+                this.reservationService.UpdateReservations();
                 var foundRooms = this.roomService.GetAvailableRooms(roomSearchVM.AccomodationDate, roomSearchVM.CheckOutDate, roomSearchVM.SelectedAmenityIds, roomSearchVM.NumberOfGuests, roomSearchVM.RoomSize);
                 var foundRoomsVM = new List<RoomVM>();
                 foreach (var foundRoom in foundRooms)
@@ -97,6 +98,7 @@ namespace WebApplication.Controllers
             return View(roomSearchVM);
         }
 
+        [UserAuthorizationFilter]
         public ActionResult UserConversations()
         {
             var currentUser = (User)Session["CurrentUser"];
@@ -147,21 +149,31 @@ namespace WebApplication.Controllers
             return RedirectToAction("Index");
         }
 
+        [UserAuthorizationFilter]
         public ActionResult Conversation(int conversationId)
         {
+            var user = (User)Session["CurrentUser"];
+            if(!this.conversationService.IsUserInConversation(user.Identity, conversationId))
+            {
+                TempData["message"] = "You can't access this conversation";
+                return RedirectToAction("UserConversations");
+            }
             var conversation = this.conversationService.GetConversationDto(conversationId);
 
             return View(conversation);
         }
 
         [HttpPost]
+        [UserAuthorizationFilter]
         public ActionResult Conversation(ConversationDto conversationDto)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = (User)Session["CurrentUser"];
                 this.conversationService.AddMessageToConversation(conversationDto.NewMessage, currentUser.Identity, conversationDto.ConversationId);
-                return Conversation(conversationDto.ConversationId);
+                TempData["message"] = "Message sent successfully";
+
+                return RedirectToAction("Conversation", new {conversationId = conversationDto.ConversationId });
             }
 
             return Conversation(conversationDto);
@@ -180,12 +192,10 @@ namespace WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var receiver = this.userService.GetAdminUserWithLeastUserConversations();
                 var currentUser = (User)Session["CurrentUser"];
-                var newConversation = this.conversationService.AddConversationWithInitialMessage(currentUser.Identity, receiver.Identity,
+                var newConversation = this.conversationService.AddConversationWithInitialMessage(currentUser.Identity,
                     newConversationDto.NewMessage, newConversationDto.NewConversationTitle);
-
-                return Conversation(newConversation.ConversationID);
+                return RedirectToAction("Conversation", new { conversationId = newConversation.ConversationID });
             }
 
             return View(newConversationDto);
@@ -285,7 +295,6 @@ namespace WebApplication.Controllers
             }
             if (ModelState.IsValid && isValid)
             {
-                
                 user.Password = newPassword;
 
                 userService.EditUser(user);
@@ -294,6 +303,22 @@ namespace WebApplication.Controllers
                 return RedirectToAction("MyProfile");
             }
             return View(changePasswordVM);
+        }
+
+        [UserAuthorizationFilter]
+        public ActionResult Reservations()
+        {
+            var user = (User)Session["CurrentUser"];
+            var reservations = this.reservationService.GetUserReservationsDto(user.Identity);
+
+            return View(reservations);
+        }
+
+        public ActionResult CancelReservation(int reservationId)
+        {
+            this.reservationService.ChangeReservationStatus(reservationId, ReservationStatusEnum.Canceled);
+            TempData["message"] = "Reservation canceled";
+            return RedirectToAction("Reservations");
         }
     }
 }

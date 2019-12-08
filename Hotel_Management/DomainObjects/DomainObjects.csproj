@@ -52,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\ConversationDto.cs" />
+    <Compile Include="Dto\ConversationListItemDto.cs" />
     <Compile Include="Dto\MessageDto.cs" />
     <Compile Include="Dto\NewConversationDto.cs" />
+    <Compile Include="Dto\ReservationDto.cs" />
     <Compile Include="Dto\RoomWithAmenitiesDto.cs" />
     <Compile Include="Dto\RoomWithReservationsDto.cs" />
     <Compile Include="Entities\Amenity.cs" />

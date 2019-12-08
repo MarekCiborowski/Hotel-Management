@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace DomainObjects.Dto
 {
-    public class ConversationDto
+    public class ConversationListItemDto
     {
         public int ConversationId { get; set; }
 
+        [Display(Name = "Conversation title")]
         public string ConversationTitle { get; set; }
-
-        public List<MessageDto> Messages { get; set; }
-
-        [Display(Name =("New message"))]
-        [StringLength(500)]
-        public string NewMessage { get; set; }
     }
 }

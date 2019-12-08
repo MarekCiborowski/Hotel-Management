@@ -20,15 +20,15 @@ namespace DomainObjects.Entities
         public string MessageContent { get; set; }
 
         [ForeignKey("Conversation")]
+        [Required]
         public int ConversationID { get; set; }
 
-        [Required]
         public virtual Conversation Conversation { get; set; }
 
         [ForeignKey("User")]
+        [Required]
         public int UserId { get; set; }
 
-        [Required]
         public virtual User User { get; set; }
     }
 }

@@ -1,0 +1,24 @@
+﻿@model DomainObjects.Dto.ConversationDto
+
+<table>
+    @foreach (var message in Model.Messages)
+    {
+        <tr>
+            <td>
+                @message.DisplayedSenderName: @message.MessageContent
+            </td>
+        </tr>
+    }
+</table>
+
+@using (Html.BeginForm())
+{
+    @Html.TextAreaFor(m => m.NewMessage, new { @placeholder = "New message", style = "font-size: medium; width:600px" })
+    @Html.ValidationMessageFor(m => m.NewMessage, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Send message" class="btn btn-search" />
+        </div>
+    </div>
+}

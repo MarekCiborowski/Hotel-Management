@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using DomainObjects.Dto;
 using DomainObjects.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,19 @@ namespace Repositories.Repositories
             this.db = databaseContext;
         }
 
-        public Conversation AddConversationWithInitialMessage (int senderId, int receiverId, string message, string conversationTitle)
+        public List<ConversationListItemDto> GetConversationsIncludingSenderNameInTitle()
+        {
+            var conversationList = db.Conversations.Select(c => new ConversationListItemDto
+            {
+                ConversationId = c.ConversationID,
+                ConversationTitle = db.Users.Where(u => u.RoleId == DomainObjects.Enums.RolesEnum.RegularUser
+                    && db.UserConversations.Where(uc => uc.ConversationID == c.ConversationID).Select(uc => uc.UserID).Contains(u.Identity)).Select(us => us.FirstName + " " + us.LastName + ": ").FirstOrDefault() + c.Title
+            }).ToList();
+
+            return conversationList;
+        }
+
+        public Conversation AddConversationWithInitialMessage (int senderId, string message, string conversationTitle)
         {
             var newMessage = new Message
             {
@@ -29,11 +42,6 @@ namespace Repositories.Repositories
             {
                 Title = conversationTitle,
                 Messages = new List<Message> { newMessage },
-                UserConversations = new List<UserConversation>
-                {
-                    new UserConversation{ UserID = senderId },
-                    new UserConversation{ UserID = receiverId}
-                }
             };
 
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -42,10 +50,16 @@ namespace Repositories.Repositories
                 {
                     this.db.Conversations.Add(newConversation);
                     db.SaveChanges();
+                    this.db.UserConversations.Add(new UserConversation
+                    {
+                        ConversationID = newConversation.ConversationID,
+                        UserID = senderId
+                    });
+                    db.SaveChanges();
                     dbContextTransaction.Commit();
                     return newConversation;
                 }
-                catch
+                catch(Exception e)
                 {
                     dbContextTransaction.Rollback();
                     return null;
@@ -67,6 +81,11 @@ namespace Repositories.Repositories
             ).ToList();
 
             return userConversations;
+        }
+
+        public bool IsUserInConversation(int userId, int conversationId)
+        {
+            return this.db.UserConversations.Any(uc => uc.UserID == userId && uc.ConversationID == conversationId);
         }
 
 

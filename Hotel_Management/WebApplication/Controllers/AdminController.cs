@@ -1,5 +1,7 @@
 ﻿using BusinessLogic.Services;
 using DataAccessLayer;
+using DomainObjects.Dto;
+using DomainObjects.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,13 +32,38 @@ namespace WebApplication.Controllers
         }
 
         // GET: Admin
-        public ActionResult Index()
+        public ActionResult Reservations()
         {
-            return RedirectToAction("Index", "Home");
+            this.reservationService.UpdateReservations();
+            var reservations = this.reservationService.GetReservationsDto();
+
+            return View(reservations);
+        }
+
+        public ActionResult ConfirmReservation(int reservationId)
+        {
+            this.reservationService.ChangeReservationStatus(reservationId, ReservationStatusEnum.Confirmed);
+            TempData["message"] = "Reservation confirmed";
+            return RedirectToAction("Reservations");
+        }
+
+        public ActionResult CancelReservation(int reservationId)
+        {
+            this.reservationService.ChangeReservationStatus(reservationId, ReservationStatusEnum.Canceled);
+            TempData["message"] = "Reservation canceled";
+            return RedirectToAction("Reservations");
+        }
+
+        public ActionResult CloseReservation(int reservationId)
+        {
+            this.reservationService.ChangeReservationStatus(reservationId, ReservationStatusEnum.Closed);
+            TempData["message"] = "Reservation closed";
+            return RedirectToAction("Reservations");
         }
 
         public ActionResult Rooms()
         {
+            this.reservationService.UpdateReservations();
             var rooms = this.roomService.GetAllRooms();
             var allRoomsVM = new List<RoomListItem>();
             foreach(var room in rooms)
@@ -250,6 +277,35 @@ namespace WebApplication.Controllers
             TempData["message"] = "Confirmed user " + user.FirstName + " " + user.LastName;
 
             return RedirectToAction("Users");
+        }
+
+        public ActionResult ConversationList()
+        {
+            var conversationsDto = this.conversationService.GetConversationsIncludingSenderNameInTitle();
+
+            return View(conversationsDto);
+        }
+
+        public ActionResult Conversation(int conversationId)
+        {
+            var conversation = this.conversationService.GetConversationDto(conversationId);
+
+            return View(conversation);
+        }
+
+        [HttpPost]
+        public ActionResult Conversation(ConversationDto conversationDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = (User)Session["CurrentUser"];
+                this.conversationService.AddMessageToConversation(conversationDto.NewMessage, currentUser.Identity, conversationDto.ConversationId);
+                TempData["message"] = "Message sent successfully";
+
+                return RedirectToAction("Conversation", new { conversationId = conversationDto.ConversationId });
+            }
+
+            return Conversation(conversationDto);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using DomainObjects.Dto;
 using DomainObjects.Entities;
 using System;
 using System.Collections.Generic;
@@ -98,6 +99,46 @@ namespace Repositories.Repositories
                 }
                 this.EditReservation(reservation);
             }
+        }
+
+        public List<ReservationDto> GetReservationsDto()
+        {
+            var reservations = db.Reservations.Select(r => new ReservationDto
+            {
+                AccomodationDate = r.AccomodationDate,
+                CheckOutDate = r.CheckOutDate,
+                TotalCost = r.TotalCost,
+                ReservationId = r.ReservationId,
+                RoomId = db.RoomReservations.FirstOrDefault(rr => rr.ReservationId == r.ReservationId).RoomId,
+                HotelBookingSiteId = r.HotelBookingSiteId,
+                HotelBookingSite = r.HotelBookingSiteId.ToString(),
+                ReservationStatusId = r.ReservationStatusId,
+                ReservationStatus = r.ReservationStatusId.ToString(),
+                ArrangerName = db.Users.Where(u => u.Identity == r.UserId).Select(u => u.FirstName + " " + u.LastName).FirstOrDefault(),
+                ArrangerId = r.UserId
+            }).OrderByDescending(r => r.ReservationId).ToList();
+
+            return reservations;
+        }
+
+        public List<ReservationDto> GetUserReservationsDto(int userId)
+        {
+            var reservations = db.Reservations.Where(r => r.UserId == userId).Select(r => new ReservationDto
+            {
+                AccomodationDate = r.AccomodationDate,
+                CheckOutDate = r.CheckOutDate,
+                TotalCost = r.TotalCost,
+                ReservationId = r.ReservationId,
+                RoomId = db.RoomReservations.FirstOrDefault(rr => rr.ReservationId == r.ReservationId).RoomId,
+                HotelBookingSiteId = r.HotelBookingSiteId,
+                HotelBookingSite = r.HotelBookingSiteId.ToString(),
+                ReservationStatusId = r.ReservationStatusId,
+                ReservationStatus = r.ReservationStatusId.ToString(),
+                ArrangerName = db.Users.Where(u => u.Identity == r.UserId).Select(u => u.FirstName + " " + u.LastName).FirstOrDefault(),
+                ArrangerId = r.UserId
+            }).OrderByDescending(r => r.ReservationId).ToList();
+
+            return reservations;
         }
 
 

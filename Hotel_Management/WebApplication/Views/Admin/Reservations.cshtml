@@ -1,0 +1,73 @@
+﻿@model IEnumerable<DomainObjects.Dto.ReservationDto>
+<h4>Reservations</h4>
+<table>
+    <tr>
+        <th>
+            Reservation id
+        </th>
+        <th>
+            Room number
+        </th>
+        <th>
+            Arranger name
+        </th>
+        <th>
+            Total cost[$]
+        </th>
+        <th>
+            Reservation status
+        </th>
+        <th>
+            Hotel booking site
+        </th>
+        <th>
+            Accomodation date
+        </th>
+        <th>
+            Check out date
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+    @foreach(var reservation in Model)
+    {
+        <tr>
+            <td>
+                @reservation.ReservationId
+            </td>
+            <td>
+                @reservation.RoomId
+            </td>
+            <td>
+                @Html.ActionLink(reservation.ArrangerName, "UserProfile", new {userId = reservation.ArrangerId})
+            </td>
+            <td>
+                @reservation.TotalCost
+            </td>
+            <td>
+                @reservation.ReservationStatus
+            </td>
+            <td>
+                @reservation.HotelBookingSite
+            </td>
+            <td>
+                @reservation.AccomodationDate.ToShortDateString()
+            </td>
+            <td>
+                @reservation.CheckOutDate.ToShortDateString()
+            </td>
+            <td>
+                @if (reservation.ReservationStatusId == DomainObjects.Enums.ReservationStatusEnum.AwaitingConfirmation)
+                {
+                    @Html.ActionLink("Confirm", "ConfirmReservation", new { reservationId = reservation.ReservationId });
+                    <span> &nbsp;&nbsp; </span>
+                    @Html.ActionLink("Cancel", "CancelReservation", new { reservationId = reservation.ReservationId })
+                } else if (reservation.ReservationStatusId == DomainObjects.Enums.ReservationStatusEnum.Confirmed)
+                {
+                    @Html.ActionLink("Close", "CloseReservation", new { reservationId = reservation.ReservationId });
+                }
+            </td>
+        </tr>
+    }
+</table>

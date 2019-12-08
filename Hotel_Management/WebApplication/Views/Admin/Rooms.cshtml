@@ -43,8 +43,9 @@
             @room.Amenities
         </td>
         <td>
-            @Html.ActionLink("Delete room", "DeleteRoom", new {roomId = room.RoomId })
-            @Html.ActionLink("Edit room", "EditRoom", new { roomId = room.RoomId })
+            @Html.ActionLink("Delete room", "DeleteRoom", new {roomId = room.RoomId }) | 
+            @Html.ActionLink("Edit room", "EditRoom", new { roomId = room.RoomId }) |
+            @Html.ActionLink("Reservations", "RoomReservations", new { roomId = room.RoomId })
         </td>
     </tr>
     }

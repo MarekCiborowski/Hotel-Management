@@ -27,7 +27,8 @@ namespace BusinessLogic.Services
             var conversationDto = new ConversationDto
             {
                 ConversationId = conversation.ConversationID,
-                ConversationTitle = conversation.Title
+                ConversationTitle = conversation.Title,
+                Messages = new List<MessageDto>()
             };
 
             var messages = this.messageRepository.GetConversationMessagesWithUsers(conversationId);
@@ -49,9 +50,9 @@ namespace BusinessLogic.Services
             return userConversations;
         }
 
-        public Conversation AddConversationWithInitialMessage(int senderId, int receiverId, string message, string conversationTitle)
+        public Conversation AddConversationWithInitialMessage(int senderId, string message, string conversationTitle)
         {
-            var newConversation = this.conversationRepository.AddConversationWithInitialMessage(senderId, receiverId, message, conversationTitle);
+            var newConversation = this.conversationRepository.AddConversationWithInitialMessage(senderId, message, conversationTitle);
 
             return newConversation;
         }
@@ -61,6 +62,18 @@ namespace BusinessLogic.Services
             var message = this.messageRepository.AddMessageToConversation(messageContent, senderId, conversationId);
 
             return message;
+        }
+
+        public List<ConversationListItemDto> GetConversationsIncludingSenderNameInTitle()
+        {
+            var conversations = this.conversationRepository.GetConversationsIncludingSenderNameInTitle();
+
+            return conversations;
+        }
+
+        public bool IsUserInConversation(int userId, int conversationId)
+        {
+            return this.conversationRepository.IsUserInConversation(userId, conversationId);
         }
     }
 }

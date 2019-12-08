@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using DomainObjects.Dto;
 using DomainObjects.Entities;
 using Repositories.Repositories;
 using System;
@@ -29,6 +30,26 @@ namespace BusinessLogic.Services
             var totalCost = Math.Round(numberOfDays * room.Cost, 2);
 
             return this.reservationRepository.AddReservation(roomId, arrangerId, requestedAccomodationDate, requestedCheckOutDate, reservationStatus, hotelBookingSite, totalCost);
+        }
+
+        public void UpdateReservations()
+        {
+            this.reservationRepository.UpdateReservations();
+        }
+
+        public Reservation ChangeReservationStatus(int reservationId, ReservationStatusEnum statusToSet)
+        {
+            return this.reservationRepository.ChangeReservationStatus(reservationId, statusToSet);
+        }
+
+        public List<ReservationDto> GetReservationsDto()
+        {
+            return this.reservationRepository.GetReservationsDto();
+        }
+
+        public List<ReservationDto> GetUserReservationsDto(int userId)
+        {
+            return this.reservationRepository.GetUserReservationsDto(userId);
         }
 
 

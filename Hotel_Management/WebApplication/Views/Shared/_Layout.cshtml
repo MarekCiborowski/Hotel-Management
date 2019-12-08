@@ -22,13 +22,14 @@
                 @{ bool isAuthenticated = user != null;}
                 @if (isAuthenticated && user.RoleId == DomainObjects.Enums.RolesEnum.Admin)
                 {
-                    <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
-                    <a class="btn-menu" href="@Url.Action("Conversations","Admin")">Conversations</a>
+                    <a class="btn-menu" href="@Url.Action("Reservations", "Admin")">Homepage</a>
+                    <a class="btn-menu" href="@Url.Action("ConversationList","Admin")">Conversations</a>
                     <a class="btn-menu" href="@Url.Action("Reservations","Admin")">Reservations</a>
                     <a class="btn-menu" href="@Url.Action("Amenities", "Admin")">Amenities</a>
                     <a class="btn-menu" href="@Url.Action("Rooms","Admin")">Rooms</a>
                     <a class="btn-menu" href="@Url.Action("Users","Admin")">Accounts</a>
                     <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
+                    <a class="btn-menu" href="@Url.Action("NewAdmin","Authentication")">New admin</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
                 }
                 else if (isAuthenticated)
@@ -36,6 +37,7 @@
                     <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
                     <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
                     <a class="btn-menu" href="@Url.Action("UserConversations","Home")">Conversations</a>
+                    <a class="btn-menu" href="@Url.Action("Reservations","Home")">Reservations</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
                 }
                 else
@@ -62,7 +64,7 @@
         </div>
         <br />
         <footer>
-            <p>&copy; @DateTime.Now.Day.@DateTime.Now.Month.@DateTime.Now.Year</p>
+            <p style="color:#10465e">&copy; @DateTime.Now.Day.@DateTime.Now.Month.@DateTime.Now.Year</p>
         </footer>
     </div>
 

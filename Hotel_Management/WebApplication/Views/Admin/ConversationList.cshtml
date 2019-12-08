@@ -1,0 +1,13 @@
+﻿@model IEnumerable<DomainObjects.Dto.ConversationListItemDto>
+
+<h4>Conversation list</h4>
+<table>
+    @foreach(var conversation in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(conversation.ConversationTitle, "Conversation", new {conversationId = conversation.ConversationId })
+            </td>
+        </tr>
+    }
+</table>
