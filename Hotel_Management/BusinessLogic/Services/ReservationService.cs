@@ -14,15 +14,21 @@ namespace BusinessLogic.Services
     {
 
         private ReservationRepository reservationRepository;
+        private RoomRepository roomRepository;
 
         public ReservationService(DatabaseContext databaseContext)
         {
             this.reservationRepository = new ReservationRepository(databaseContext);
+            this.roomRepository = new RoomRepository(databaseContext);
         }
 
-        public Reservation AddReservation(int roomId, int arrangerId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, ReservationStatusEnum reservationStatus)
+        public Reservation AddReservation(int roomId, int arrangerId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, ReservationStatusEnum reservationStatus, HotelBookingSiteEnum hotelBookingSite)
         {
-            return this.reservationRepository.AddReservation(roomId, arrangerId, requestedAccomodationDate, requestedCheckOutDate, reservationStatus);
+            var room = this.roomRepository.GetRoom(roomId);
+            var numberOfDays = (int)Math.Ceiling((requestedCheckOutDate - requestedAccomodationDate).TotalDays);
+            var totalCost = Math.Round(numberOfDays * room.Cost, 2);
+
+            return this.reservationRepository.AddReservation(roomId, arrangerId, requestedAccomodationDate, requestedCheckOutDate, reservationStatus, hotelBookingSite, totalCost);
         }
 
 

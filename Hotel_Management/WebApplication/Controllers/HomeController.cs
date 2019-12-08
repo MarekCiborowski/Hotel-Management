@@ -48,25 +48,43 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult Index(RoomSearchVM roomSearchVM)
         {
-            var foundRooms = this.roomService.GetAvailableRooms(roomSearchVM.AccomodationDate, roomSearchVM.CheckOutDate, roomSearchVM.SelectedAmenityIds, roomSearchVM.NumberOfGuests, roomSearchVM.RoomSize);
-            var foundRoomsVM = new List<RoomVM>();
-            foreach(var foundRoom in foundRooms)
-            {
-                var amenities = this.roomService.GetAmenitiesOfRoom(foundRoom.RoomId);
-                var amenitiesString = new StringBuilder();
-                foreach(var amenity in amenities)
-                {
-                    amenitiesString.Append(amenity.AmenityName + ", ");
-                }
+            var isValid = true;
 
-                foundRoomsVM.Add(new RoomVM
+            if(roomSearchVM.AccomodationDate < DateTime.Today)
+            {
+                ModelState.AddModelError("AccomodationDate", "Accomodation date cannot be set before today");
+                isValid = false;
+            }
+
+            if (roomSearchVM.AccomodationDate > roomSearchVM.CheckOutDate)
+            {
+                ModelState.AddModelError("CheckOutDate", "Check out date cannot be set before accomodation");
+                isValid = false;
+            }
+
+            if (isValid)
+            {
+                var foundRooms = this.roomService.GetAvailableRooms(roomSearchVM.AccomodationDate, roomSearchVM.CheckOutDate, roomSearchVM.SelectedAmenityIds, roomSearchVM.NumberOfGuests, roomSearchVM.RoomSize);
+                var foundRoomsVM = new List<RoomVM>();
+                foreach (var foundRoom in foundRooms)
                 {
-                    Amenities = amenitiesString.ToString(),
-                    Cost = foundRoom.Cost,
-                    MaxNumberOfGuests = foundRoom.MaxNumberOfGuests,
-                    RoomNumber = foundRoom.RoomId,
-                    RoomSize = foundRoom.RoomSize
-                });
+                    var amenities = this.roomService.GetAmenitiesOfRoom(foundRoom.RoomId);
+                    var amenitiesString = new StringBuilder();
+                    foreach (var amenity in amenities)
+                    {
+                        amenitiesString.Append(amenity.AmenityName + ", ");
+                    }
+
+                    foundRoomsVM.Add(new RoomVM
+                    {
+                        Amenities = amenitiesString.ToString(),
+                        Cost = foundRoom.Cost,
+                        MaxNumberOfGuests = foundRoom.MaxNumberOfGuests,
+                        RoomNumber = foundRoom.RoomId,
+                        RoomSize = foundRoom.RoomSize
+                    });
+                }
+                roomSearchVM.FoundRooms = foundRoomsVM;
             }
 
             roomSearchVM.AmenitiesToSearch = roomService.GetAllAmenities().Select(a => new AmenitySearchVM
@@ -74,7 +92,7 @@ namespace WebApplication.Controllers
                 AmenityId = a.AmenityId,
                 AmenityName = a.AmenityName
             }).ToList();
-            roomSearchVM.FoundRooms = foundRoomsVM;
+            
 
             return View(roomSearchVM);
         }
@@ -87,11 +105,12 @@ namespace WebApplication.Controllers
             {
                 ConversationId = c.ConversationID,
                 ConversationTitle = c.Title
-            });
+            }).ToList();
 
             return View(conversationsVM);
         }
 
+        [GeneralAuthorizationFilter]
         public ActionResult MakeReservation(int roomId, DateTime accomodationDate, DateTime checkOutDate)
         {
             var room = this.roomService.GetRoom(roomId);
@@ -116,13 +135,16 @@ namespace WebApplication.Controllers
             return View(makeReservationVM);
         }
 
-        public ActionResult SendReservation(MakeReservationVM makeReservationVM)
+        [GeneralAuthorizationFilter]
+        [HttpPost]
+        public ActionResult MakeReservation(MakeReservationVM makeReservationVM)
         {
             var user = (User)Session["CurrentUser"];
-            this.reservationService.AddReservation(makeReservationVM.RoomId, user.Identity, makeReservationVM.AccomodationDate, makeReservationVM.CheckOutDate, ReservationStatusEnum.AwaitingConfirmation);
+
+            this.reservationService.AddReservation(makeReservationVM.RoomId, user.Identity, makeReservationVM.AccomodationDate, makeReservationVM.CheckOutDate, ReservationStatusEnum.AwaitingConfirmation, HotelBookingSiteEnum.None);
             TempData["message"] = "Successfully sent reservation";
 
-            return Index();
+            return RedirectToAction("Index");
         }
 
         public ActionResult Conversation(int conversationId)

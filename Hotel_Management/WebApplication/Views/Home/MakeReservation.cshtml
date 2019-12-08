@@ -1,0 +1,39 @@
+﻿@model WebApplication.ViewModels.Home.MakeReservationVM
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.RoomId)
+    @Html.HiddenFor(m => m.AccomodationDate)
+    @Html.HiddenFor(m => m.CheckOutDate)
+
+    <ul>
+        <li>
+            Room number: @Model.RoomId
+        </li>
+        <li>
+            Cost: @Model.Cost $
+        </li>
+        <li>
+            Max number of guests: @Model.MaxNumberOfGuests
+        </li>
+        <li>
+            Room size: @Model.RoomSize square meters
+        </li>
+        <li>
+            Amenities: @Model.Amenities
+        </li>
+        <li>
+            Accomodation date: @Model.AccomodationDate.ToShortDateString()
+        </li>
+        <li>
+            Check out date: @Model.CheckOutDate.ToShortDateString()
+        </li>
+    </ul>
+
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Send reservation" class="btn btn-search" />
+        </div>
+    </div>
+}
+

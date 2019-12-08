@@ -71,6 +71,28 @@ namespace BusinessLogic.Services
             return this.userRepository.GetUnconfirmedUsers();
         }
 
+        public List<User> GetConfirmedUsers()
+        {
+            return this.userRepository.GetConfirmedUsers();
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return this.userRepository.GetAllUsers();
+        }
+
+        public List<User> GetAllConfirmedUsersOfType(RolesEnum role)
+        {
+            var allUsers = this.userRepository.GetAllUsers();
+            return allUsers.Where(au => au.RoleId == role && au.IsConfirmed).ToList();
+        }
+
+        public User GetUserById(int userId)
+        {
+            return this.userRepository.GetUser(userId);
+        }
+
+
         public User GetAdminUserWithLeastUserConversations()
         {
             return this.userRepository.GetAdminUserWithLeastUserConversations();

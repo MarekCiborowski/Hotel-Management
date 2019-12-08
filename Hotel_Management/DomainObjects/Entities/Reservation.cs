@@ -22,9 +22,9 @@ namespace DomainObjects.Entities
         public ReservationStatus ReservationStatus { get; set; }
         
         [ForeignKey("User")]
+        [Required]
         public int UserId { get; set; }
 
-        [Required]
         public virtual User User { get; set; }
 
         public virtual ICollection<RoomReservation> RoomReservations { get; set; }
@@ -39,6 +39,10 @@ namespace DomainObjects.Entities
 
         [Required]
         public DateTime CheckOutDate { get; set; }
+
+        [Required]
+        public decimal TotalCost { get; set; }
+        //komentarz
 
     }
 }

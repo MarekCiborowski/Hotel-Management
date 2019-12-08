@@ -8,18 +8,20 @@
     @Html.LabelFor(m => m.AccomodationDate)
     <br />
     @Html.EditorFor(m => m.AccomodationDate, new { @class = "datepicker form-control", @placeholder = "Enter accomodation date" })
+    @Html.ValidationMessageFor(model => model.AccomodationDate, "", new { @class = "text-danger" })
     <br /><br />
     @Html.LabelFor(m => m.CheckOutDate)
     <br />
     @Html.EditorFor(m => m.CheckOutDate, new { @class = "datepicker form-control", @placeholder = "Enter checkout date" })
+    @Html.ValidationMessageFor(model => model.CheckOutDate, "", new { @class = "text-danger" })
     <br /><br />
     @Html.LabelFor(m => m.NumberOfGuests)
     <br />
-    @Html.EditorFor(m => m.NumberOfGuests, new { @class = "form-control", @placeholder = "Enter checkout date" })
+    @Html.EditorFor(m => m.NumberOfGuests, new { @class = "form-control", @placeholder = "Number of guests" })
     <br />
     @Html.LabelFor(m => m.RoomSize)
     <br />
-    @Html.EditorFor(m => m.RoomSize, new {@class = "form-control", @placeholder = "Enter minimal room size" })
+    @Html.EditorFor(m => m.RoomSize, new { @class = "form-control", @placeholder = "Enter minimal room size" })
     <br /><br />
     @Html.DropDownListFor(m => m.SelectedAmenityIds,
         Model.AmenitiesToSearch.Select(ats => new SelectListItem {Text = ats.AmenityName, Value = ats.AmenityId.ToString() }),
@@ -69,7 +71,7 @@
                     @Html.DisplayFor(modelItem => item.RoomSize)
                 </td>
                 <td>
-                    @Html.ActionLink("Make reservation", "MakeReservation");
+                    @Html.ActionLink("Make reservation", "MakeReservation", new { roomId = item.RoomNumber, accomodationDate = Model.AccomodationDate, checkOutDate = Model.CheckOutDate })
                 </td>
             </tr>
         }
@@ -96,6 +98,6 @@
                 showOn: "both",
             });
         })
-    });
+    }());
 </script>
 

@@ -38,7 +38,7 @@
                 Amenities
             </td>
             <td>
-                @Html.DropDownListFor(m => m.SelectedAmenityIds,
+                @Html.ListBoxFor(m => m.SelectedAmenityIds,
      Model.AllAmenities.Select(ats => new SelectListItem { Text = ats.AmenityName, Value = ats.AmenityId.ToString() }),
      new { @class = "form-control chosen-select", @multiple = true, @placeholder = "Select amenities" })
             </td>
@@ -50,8 +50,6 @@
                 </div>
             </td>
         </tr>
-
-
     </table>
 
 }
@@ -60,7 +58,6 @@
 <script>
     $(document).ready(function () {
 
-        $(".chosen").trigger("chosen:updated");
         $(".chosen-select").chosen({
             'no_results_text': 'Oops, nothing found!',
             'width': '700px',

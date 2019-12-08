@@ -27,7 +27,7 @@
                     <a class="btn-menu" href="@Url.Action("Reservations","Admin")">Reservations</a>
                     <a class="btn-menu" href="@Url.Action("Amenities", "Admin")">Amenities</a>
                     <a class="btn-menu" href="@Url.Action("Rooms","Admin")">Rooms</a>
-                    <a class="btn-menu" href="@Url.Action("Accounts","Admin")">Accounts</a>
+                    <a class="btn-menu" href="@Url.Action("Users","Admin")">Accounts</a>
                     <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
                 }
@@ -35,6 +35,7 @@
                 {
                     <a class="btn-menu" href="@Url.Action("Index", "Home")">Homepage</a>
                     <a class="btn-menu" href="@Url.Action("MyProfile","Home")">My profile</a>
+                    <a class="btn-menu" href="@Url.Action("UserConversations","Home")">Conversations</a>
                     <a class="btn-menu" href="@Url.Action("Logout","Authentication")">Logout: @user.FirstName @user.LastName</a>
                 }
                 else

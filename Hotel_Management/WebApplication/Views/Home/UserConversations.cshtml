@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebApplication.ViewModels.Home.UserConversationsVM>
+
+@Html.ActionLink("New conversation", "NewConversation", null, new { @class = "btn-search" })
+
+<ul>
+    @foreach (var conversation in Model)
+    {
+        <li>
+            @Html.ActionLink(conversation.ConversationTitle, "Conversation", new { conversationId = conversation.ConversationId})
+        </li>
+    }
+</ul>
+

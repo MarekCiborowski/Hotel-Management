@@ -182,6 +182,18 @@ namespace Repositories.Repositories
             return unconfirmedUsers;
         }
 
+        public List<User> GetConfirmedUsers()
+        {
+            var confirmedUsers = db.Users.Where(u => u.IsConfirmed).ToList();
+
+            return confirmedUsers;
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return this.db.Users.ToList();
+        }
+
         public User GetAdminUserWithLeastUserConversations()
         {
             var adminUserWithLeastUserConversations = db.Users.FirstOrDefault(u => db.UserConversations

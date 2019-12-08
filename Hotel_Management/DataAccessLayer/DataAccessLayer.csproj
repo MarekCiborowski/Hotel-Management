@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201912040001143_roomAmenityChange.designer.cs">
       <DependentUpon>201912040001143_roomAmenityChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912072334335_reservationTotalCost.cs" />
+    <Compile Include="Migrations\201912072334335_reservationTotalCost.designer.cs">
+      <DependentUpon>201912072334335_reservationTotalCost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -94,6 +98,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912040001143_roomAmenityChange.resx">
       <DependentUpon>201912040001143_roomAmenityChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912072334335_reservationTotalCost.resx">
+      <DependentUpon>201912072334335_reservationTotalCost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

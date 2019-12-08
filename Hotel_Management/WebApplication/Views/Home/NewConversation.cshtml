@@ -1,0 +1,23 @@
+﻿@model DomainObjects.Dto.NewConversationDto
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.EditorFor(m => m.NewConversationTitle, new { htmlAttributes = new { @placeholder = "Conversation title" } })
+        @Html.ValidationMessageFor(m => m.NewConversationTitle, "", new { @class = "text-danger" })
+    </div>
+    <br/>
+    <br />
+    <div>
+        @Html.TextAreaFor(m => m.NewMessage, new { @placeholder = "Initial message", style = "font-size: medium; width:600px" })
+        @Html.ValidationMessageFor(m => m.NewMessage, "", new { @class = "text-danger" })
+    </div>
+    <br />
+
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Start conversation" class="btn btn-search" />
+        </div>
+    </div>
+}
+

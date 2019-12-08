@@ -20,6 +20,7 @@ namespace WebApplication.ViewModels.Admin
         public int MaxNumberOfGuests { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        [Range(0,50)]
         public decimal RoomSize { get; set; }
 
         public List<AmenityVM> AllAmenities { get; set; }

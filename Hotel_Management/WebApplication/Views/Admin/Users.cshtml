@@ -1,0 +1,87 @@
+﻿@model WebApplication.ViewModels.Admin.UserSearchVM
+
+@using (Html.BeginForm())
+{
+    <div style="overflow:hidden">
+        <div style="float:left; margin-right:20px">
+            @Html.DisplayNameFor(m => m.ShowAdmin)
+            @Html.CheckBoxFor(m => m.ShowAdmin)
+        </div>
+        <div style="float:left; margin-right:20px">
+            @Html.DisplayNameFor(m => m.ShowUnconfirmed)
+            @Html.CheckBoxFor(m => m.ShowUnconfirmed)
+        </div>
+        <div class="form-group" style="float:left">
+            <div>
+                <input type="submit" value="Search" class="btn btn-search" />
+            </div>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>
+                First name
+            </th>
+            <th>
+                Last name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Confirmed
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        @foreach (var user in Model.UserList)
+        {
+            <tr>
+                <td>
+                    @user.FirstName
+                </td>
+                <td>
+                    @user.LastName
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @(user.IsConfirmed ? "Yes" : "No")
+                </td>
+                <td>
+                    @user.Role
+                </td>
+                <td>
+                    @Html.ActionLink("Profile", "UserProfile", new { userId = user.UserId })
+                    @if (!user.IsConfirmed)
+                    {
+                        @Html.ActionLink("Confirm user", "ConfirmUser", new { userId = user.UserId })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+
+}
+
+<script>
+    $(document).ready(function () {
+        $("#ShowUnconfirmed").change(function () {
+            if (this.checked) {
+                $("#ShowAdmin").prop("checked", false);
+            }
+        });
+
+        $("#ShowAdmin").change(function () {
+            if (this.checked) {
+                $("#ShowUnconfirmed").prop("checked", false);
+            }
+        })
+    });
+</script>

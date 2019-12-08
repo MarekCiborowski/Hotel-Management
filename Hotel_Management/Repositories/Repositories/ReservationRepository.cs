@@ -19,7 +19,7 @@ namespace Repositories.Repositories
             this.db = databaseContext;
         }
 
-        public Reservation AddReservation (int roomId, int arrangerId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, ReservationStatusEnum reservationStatus)
+        public Reservation AddReservation (int roomId, int arrangerId, DateTime requestedAccomodationDate, DateTime requestedCheckOutDate, ReservationStatusEnum reservationStatus, HotelBookingSiteEnum hotelBookingSite, decimal totalCost)
         {
             var newReservation = new Reservation
             {
@@ -27,10 +27,8 @@ namespace Repositories.Repositories
                 ReservationStatusId = reservationStatus,
                 AccomodationDate = requestedAccomodationDate,
                 CheckOutDate = requestedCheckOutDate,
-                RoomReservations = new List<RoomReservation> { new RoomReservation
-                {
-                    RoomId = roomId,
-                } }
+                HotelBookingSiteId = hotelBookingSite,
+                TotalCost = totalCost
             };
 
             using(var dbContextTransaction = db.Database.BeginTransaction())
@@ -38,6 +36,12 @@ namespace Repositories.Repositories
                 try
                 {
                     db.Reservations.Add(newReservation);
+                    db.SaveChanges();
+                    db.RoomReservations.Add(new RoomReservation
+                    {
+                        ReservationId = newReservation.ReservationId,
+                        RoomId = roomId
+                    });
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                     return newReservation;

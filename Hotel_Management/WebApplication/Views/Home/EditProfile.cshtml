@@ -1,4 +1,4 @@
-﻿@model WebApplication.ViewModels.Home.MyProfileVM
+﻿@model WebApplication.ViewModels.Home.ProfileVM
 @{
     ViewBag.Title = "EditProfile";
 }
@@ -13,86 +13,61 @@
 <table style=" float:left">
     <tr>
         <td>
-            @Html.LabelFor(m => m.nickname, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
         </td>
         <td>
-            @Html.EditorFor(m => m.nickname, new { htmlAttributes = new { @Value = @Model.nickname, @class = "form-control" } })
-            @Html.ValidationMessageFor(m => m.nickname, "", new { @class = "text-danger" })
+            @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @Value = @Model.FirstName, @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
         </td>
     </tr>
     <tr>
         <td>
-            @Html.LabelFor(m => m.email, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
         </td>
         <td>
-            @Html.EditorFor(m => m.email, new { htmlAttributes = new { @Value = @Model.email, @class = "form-control" } })
-            @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+            @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @Value = @Model.LastName, @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.LabelFor(m => m.City, htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+            @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
         </td>
     </tr>
     <tr>
         <td>
-            <div style="display:flex; flex-direction:column">
-                @Html.LabelFor(m => m.isProfilePublic, htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div>@Html.RadioButtonFor(m => m.isProfilePublic, "false", new { @checked = "checked" }) <label>Private</label></div>
-                <div>@Html.RadioButtonFor(m => m.isProfilePublic, "true") <label>Public</label></div>
-            </div>
-            
+            @Html.LabelFor(m => m.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.EditorFor(m => m.Zipcode, new { htmlAttributes = new { @class = "form-control", placeholder = "Zipcode" } })
+            @Html.ValidationMessageFor(m => m.Zipcode, "", new { @class = "text-danger" })
         </td>
     </tr>
-
+    <tr>
+        <td>
+            @Html.LabelFor(m => m.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        </td>
+        <td>
+            @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+        </td>
+    </tr>
 </table>
-    <table>
-
-        <tr>
-            <td>
-                @Html.LabelFor(m => m.country, htmlAttributes: new { @class = "control-label col-md-2" })
-            </td>
-            <td>
-                @Html.EditorFor(m => m.country, new { htmlAttributes = new { @class = "form-control", placeholder = "Country" } })
-                @Html.ValidationMessageFor(m => m.country, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                @Html.LabelFor(m => m.state, htmlAttributes: new { @class = "control-label col-md-2" })
-            </td>
-            <td>
-                @Html.EditorFor(m => m.state, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
-                @Html.ValidationMessageFor(m => m.state, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(m => m.city, htmlAttributes: new { @class = "control-label col-md-2" })
-            </td>
-            <td>
-                @Html.EditorFor(m => m.city, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
-                @Html.ValidationMessageFor(m => m.city, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(m => m.zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
-            </td>
-            <td>
-                @Html.EditorFor(m => m.zipcode, new { htmlAttributes = new { @class = "form-control", placeholder = "Zipcode" } })
-                @Html.ValidationMessageFor(m => m.zipcode, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(m => m.address, htmlAttributes: new { @class = "control-label col-md-2" })
-            </td>
-            <td>
-                @Html.EditorFor(m => m.address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
-                @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
-            </td>
-        </tr>
-
-
-    </table>
 
     <div class="form-group">
         <div>
