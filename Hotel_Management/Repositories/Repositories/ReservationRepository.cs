@@ -87,8 +87,11 @@ namespace Repositories.Repositories
 
         public void UpdateReservations()
         {
-            foreach (var reservation in db.Reservations.Where(r => r.CheckOutDate < DateTime.Now && r.ReservationStatusId == ReservationStatusEnum.Confirmed 
-                || r.AccomodationDate < DateTime.Now && r.ReservationStatusId == ReservationStatusEnum.AwaitingConfirmation))
+            var tomorrowDate = DateTime.Now.AddDays(1);
+            var reservations = db.Reservations.Where(r => r.CheckOutDate < tomorrowDate && r.ReservationStatusId == ReservationStatusEnum.Confirmed
+                || r.AccomodationDate < tomorrowDate && r.ReservationStatusId == ReservationStatusEnum.AwaitingConfirmation).ToList();
+
+            foreach (var reservation in reservations)
             {
                 if(reservation.ReservationStatusId == ReservationStatusEnum.Confirmed)
                 {

@@ -37,7 +37,8 @@ namespace BusinessLogic.Services
             {
                 MessageId = m.MessageID,
                 DisplayedSenderName = m.User.FirstName + " " + m.User.LastName,
-                MessageContent = m.MessageContent
+                MessageContent = m.MessageContent,
+                SenderId = m.User.Identity
             }));
 
             return conversationDto;

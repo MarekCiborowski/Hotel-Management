@@ -5,7 +5,7 @@
     {
         <tr>
             <td>
-                @message.DisplayedSenderName: @message.MessageContent
+                @Html.ActionLink(message.DisplayedSenderName + ": ", "UserProfile", new {userId = message.SenderId }) @message.MessageContent
             </td>
         </tr>
     }

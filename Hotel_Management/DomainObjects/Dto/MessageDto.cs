@@ -12,6 +12,8 @@ namespace DomainObjects.Dto
 
         public string MessageContent { get; set; }
 
+        public int SenderId { get; set; }
+
         public string DisplayedSenderName { get; set; }
     }
 }
