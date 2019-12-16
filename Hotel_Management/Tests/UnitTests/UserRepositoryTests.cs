@@ -12,15 +12,11 @@ namespace Tests.UnitTests
     [TestClass]
     public class UserRepositoryTests
     {
-        private UserRepository userRepository;
-        private DatabaseContext databaseContext;
         private IQueryable<User> userList;
-        private IQueryable<User> emptyUserList;
+        private readonly IQueryable<User> emptyUserList;
 
         public UserRepositoryTests()
         {
-            this.databaseContext = new DatabaseContext();
-            this.userRepository = new UserRepository(this.databaseContext);
             List<User> list = new List<User>
             {
                new User { Identity = 23, FirstName = "Logan" },
@@ -69,7 +65,6 @@ namespace Tests.UnitTests
             //Assert
             context.Verify(x => x.Set<User>());
             dbSetMock.Verify(x => x.Add(It.IsAny<User>()));
-            Assert.IsTrue(2 == 2);
         }
 
         [TestMethod]

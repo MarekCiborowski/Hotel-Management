@@ -50,7 +50,7 @@ namespace Repositories.Repositories
                     dbContextTransaction.Commit();
                     return newRoom;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     dbContextTransaction.Rollback();
                     return null;

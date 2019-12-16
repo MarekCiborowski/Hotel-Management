@@ -12,7 +12,7 @@ namespace BusinessLogic.Services
 {
     public class UserService
     {
-        private UserRepository userRepository;
+        private readonly UserRepository userRepository;
 
         public UserService(DatabaseContext context)
         {

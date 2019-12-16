@@ -10,14 +10,14 @@ namespace WebApplication.ViewModels.Home
     {
         [Display(Name = "Old password")]
         [Required(ErrorMessage = "Old password required")]
-        public string oldPassword { get; set; }
+        public string OldPassword { get; set; }
 
         [Display(Name = "New password")]
         [Required(ErrorMessage = "New password required")]
-        public string newPassword { get; set; }
+        public string NewPassword { get; set; }
 
         [Display(Name = "Repeat password")]
         [CompareAttribute("newPassword", ErrorMessage = "Passwords are not the same.")]
-        public string repeatPassword { get; set; }
+        public string RepeatPassword { get; set; }
     }
 }

@@ -19,8 +19,8 @@ namespace WebApplication.Controllers
         private readonly DatabaseContext databaseContext;
         private UserService userService;
         private RoomService roomService;
-        private ConversationService conversationService;
-        private ReservationService reservationService;
+        private readonly ConversationService conversationService;
+        private readonly ReservationService reservationService;
 
         public HomeController()
         {
@@ -289,11 +289,11 @@ namespace WebApplication.Controllers
         {
             User user = (User)Session["CurrentUser"];
 
-            var oldPassword = userService.HashPassword(changePasswordVM.oldPassword);
+            var oldPassword = userService.HashPassword(changePasswordVM.OldPassword);
 
-            var newPassword = userService.HashPassword(changePasswordVM.newPassword);
+            var newPassword = userService.HashPassword(changePasswordVM.NewPassword);
 
-            var repeatPassword = userService.HashPassword(changePasswordVM.repeatPassword);
+            var repeatPassword = userService.HashPassword(changePasswordVM.RepeatPassword);
 
             bool isValid = true;
             if (oldPassword != user.Password)

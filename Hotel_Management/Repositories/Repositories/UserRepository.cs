@@ -53,7 +53,7 @@ namespace Repositories.Repositories
                     dbContextTransaction.Commit();
                     return createdUser;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     dbContextTransaction.Rollback();
                     return null;

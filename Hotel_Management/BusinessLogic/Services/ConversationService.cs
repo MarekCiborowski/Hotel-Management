@@ -12,8 +12,8 @@ namespace BusinessLogic.Services
 {
     public class ConversationService
     {
-        private MessageRepository messageRepository;
-        private ConversationRepository conversationRepository;
+        private readonly MessageRepository messageRepository;
+        private readonly ConversationRepository conversationRepository;
 
         public ConversationService(DatabaseContext databaseContext)
         {

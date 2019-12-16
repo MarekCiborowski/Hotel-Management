@@ -59,7 +59,7 @@ namespace Repositories.Repositories
                     dbContextTransaction.Commit();
                     return newConversation;
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     dbContextTransaction.Rollback();
                     return null;

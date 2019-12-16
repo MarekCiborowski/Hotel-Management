@@ -17,9 +17,9 @@ namespace WebApplication.Controllers
     public class AdminController : Controller
     {
         private readonly DatabaseContext databaseContext;
-        private UserService userService;
+        private readonly UserService userService;
         private RoomService roomService;
-        private ConversationService conversationService;
+        private readonly ConversationService conversationService;
         private ReservationService reservationService;
 
         public AdminController()

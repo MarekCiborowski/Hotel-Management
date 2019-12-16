@@ -11,8 +11,8 @@ namespace BusinessLogic.Services
 {
     public class RoomService
     {
-        private AmenityRepository amenityRepository;
-        private RoomRepository roomRepository;
+        private readonly AmenityRepository amenityRepository;
+        private readonly RoomRepository roomRepository;
 
         public RoomService(DatabaseContext context)
         {
