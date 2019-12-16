@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.Tests
+namespace Tests.UnitTests
 {
-    class ConversationRepositoryTests
+    public class MessageRepositoryTests
     {
     }
 }

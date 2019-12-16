@@ -70,12 +70,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\AmenityRepositoryTests.cs" />
-    <Compile Include="Tests\ConversationRepositoryTests.cs" />
-    <Compile Include="Tests\MessageRepositoryTests.cs" />
-    <Compile Include="Tests\ReservationRepositoryTests.cs" />
-    <Compile Include="Tests\RoomRepositoryTests.cs" />
-    <Compile Include="Tests\UserRepositoryTests.cs" />
+    <Compile Include="UnitTests\AmenityRepositoryTests.cs" />
+    <Compile Include="UnitTests\ConversationRepositoryTests.cs" />
+    <Compile Include="UnitTests\MessageRepositoryTests.cs" />
+    <Compile Include="UnitTests\ReservationRepositoryTests.cs" />
+    <Compile Include="UnitTests\RoomRepositoryTests.cs" />
+    <Compile Include="UnitTests\UserRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
