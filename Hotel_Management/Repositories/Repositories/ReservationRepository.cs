@@ -89,7 +89,7 @@ namespace Repositories.Repositories
         {
             var tomorrowDate = DateTime.Now.AddDays(1);
             var reservations = db.Reservations.Where(r => r.CheckOutDate < tomorrowDate && r.ReservationStatusId == ReservationStatusEnum.Confirmed
-                || r.AccomodationDate < tomorrowDate && r.ReservationStatusId == ReservationStatusEnum.AwaitingConfirmation).ToList();
+                || r.AccomodationDate > tomorrowDate && r.ReservationStatusId == ReservationStatusEnum.AwaitingConfirmation).ToList();
 
             foreach (var reservation in reservations)
             {

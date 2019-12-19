@@ -54,7 +54,7 @@ namespace WebApplication.Controllers
                 }
 
             }
-            ModelState.AddModelError("CredentialError", "Niepoprawna nazwa użytkownika lub hasło");
+            ModelState.AddModelError("CredentialError", "Invalid username or password");
             return View(vm);
         }
 

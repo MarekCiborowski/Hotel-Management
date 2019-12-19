@@ -82,6 +82,8 @@ namespace Tests.UnitTests
             //Arrange
             var context = new Mock<DatabaseContext>();
             var dbSetMock = new Mock<DbSet<Room>>();
+            var reservationsMock = new Mock<DbSet<Reservation>>();
+            var roomReservationsMock = new Mock<DbSet<RoomReservation>>();
 
             dbSetMock.As<IQueryable<Room>>().Setup(m => m.Provider).Returns(roomList.Provider);
             dbSetMock.As<IQueryable<Room>>().Setup(m => m.Expression).Returns(roomList.Expression);
@@ -89,6 +91,21 @@ namespace Tests.UnitTests
             dbSetMock.As<IQueryable<Room>>().Setup(m => m.GetEnumerator()).Returns(roomList.GetEnumerator());
             dbSetMock.Setup(x => x.Remove(It.IsAny<Room>()));
             context.Setup(x => x.Rooms).Returns(dbSetMock.Object);
+
+            var reservationList = new List<Reservation>().AsQueryable();
+            reservationsMock.As<IQueryable<Reservation>>().Setup(m => m.Provider).Returns(reservationList.Provider);
+            reservationsMock.As<IQueryable<Reservation>>().Setup(m => m.Expression).Returns(reservationList.Expression);
+            reservationsMock.As<IQueryable<Reservation>>().Setup(m => m.ElementType).Returns(reservationList.ElementType);
+            reservationsMock.As<IQueryable<Reservation>>().Setup(m => m.GetEnumerator()).Returns(reservationList.GetEnumerator());
+            context.Setup(x => x.Reservations).Returns(reservationsMock.Object);
+
+            var roomReservationList = new List<RoomReservation>().AsQueryable();
+            roomReservationsMock.As<IQueryable<RoomReservation>>().Setup(m => m.Provider).Returns(roomReservationList.Provider);
+            roomReservationsMock.As<IQueryable<RoomReservation>>().Setup(m => m.Expression).Returns(roomReservationList.Expression);
+            roomReservationsMock.As<IQueryable<RoomReservation>>().Setup(m => m.ElementType).Returns(roomReservationList.ElementType);
+            roomReservationsMock.As<IQueryable<RoomReservation>>().Setup(m => m.GetEnumerator()).Returns(roomReservationList.GetEnumerator());
+            context.Setup(x => x.RoomReservations).Returns(roomReservationsMock.Object);
+
             var repository = new RoomRepository(context.Object);
 
             //Act

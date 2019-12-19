@@ -58,12 +58,14 @@ namespace Repositories.Repositories
             }
         }
 
-        public Room EditRoom(Room editedRoom)
+        public Room EditRoom(Room editedRoom, List<RoomAmenity> roomAmenities)
         {
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
                 {
+                    db.RoomAmenities.RemoveRange(db.RoomAmenities.Where(ra => ra.RoomId == editedRoom.RoomId));
+                    db.RoomAmenities.AddRange(roomAmenities);
                     db.Entry(editedRoom).State = EntityState.Modified;
                     db.SaveChanges();
                     dbContextTransaction.Commit();
@@ -176,7 +178,11 @@ namespace Repositories.Repositories
         public void RemoveRoom(int roomId)
         {
             var roomToDelete = this.db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+            var reservationsToDelete = this.db.Reservations.Where(r => db.RoomReservations.Where(rr => rr.RoomId == roomId).Select(rr => rr.ReservationId).Contains(r.ReservationId));
+            var roomReservationsToDelete = this.db.RoomReservations.Where(rr => rr.RoomId == roomId);
             this.db.Rooms.Remove(roomToDelete);
+            this.db.Reservations.RemoveRange(reservationsToDelete);
+            db.RoomReservations.RemoveRange(roomReservationsToDelete);
             db.SaveChanges();
         }
     }

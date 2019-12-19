@@ -109,13 +109,13 @@ namespace BusinessLogic.Services
             editedRoom.Cost = cost;
             editedRoom.MaxNumberOfGuests = maxNumberOfGuests;
             editedRoom.RoomSize = roomSize;
-            editedRoom.RoomAmenities = amenityIds.Select(a => new RoomAmenity
+            var roomAmenities = amenityIds.Select(a => new RoomAmenity
             {
                 AmenityId = a,
                 RoomId = roomId
             }).ToList();
 
-            return this.roomRepository.EditRoom(editedRoom);
+            return this.roomRepository.EditRoom(editedRoom, roomAmenities);
         }
 
 
